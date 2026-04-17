@@ -4,6 +4,9 @@ import PagesList from "./modules/pages/PagesList"
 import Login from "./modules/auth/Login"
 import ProtectedRoute from "./routes/ProtectedRoute"
 import PageEditor from "./modules/pages/PageEditor"
+import ToolsList from "./modules/tools/ToolsList"
+import CreateTool from "./modules/tools/CreateTool"
+import EditTool from "./modules/tools/EditTool"
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
                   <Route path="/pages/new" element={<PageEditor />} />
                   <Route path="/pages/edit/:id" element={<PageEditor />} />
                   <Route path="/pages/edit/:id" element={<PageEditor />} />
+                  <Route path="/tools" element={<ToolsList />} />
+<Route path="/tools/new" element={<CreateTool />} />
+<Route path="/tools/edit/:id" element={<EditTool />} />
                 </Routes>
               </AdminLayout>
             </ProtectedRoute>

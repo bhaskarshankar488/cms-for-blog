@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <nav className="space-y-2">
           <Link to="/" className="block">Dashboard</Link>
           <Link to="/pages" className="block">Pages</Link>
+          <Link to="/tools" className="block">tools</Link>
         </nav>
       </div>
 

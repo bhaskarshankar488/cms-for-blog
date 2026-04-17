@@ -2,9 +2,15 @@ import { useState } from "react"
 import axios from "../../api/axios"
 import { useNavigate } from "react-router-dom"
 import RichTextEditor from "../../components/editor/RichTextEditor"
-
+import { useParams } from "react-router-dom"
+import { useEffect } from "react"
 
 export default function PageEditor() {
+
+
+  const { id } = useParams()
+const isEdit = Boolean(id)
+
   const navigate = useNavigate()
 
   // 🔥 CONTENT (Rich Editor)
@@ -27,6 +33,37 @@ export default function PageEditor() {
     faq: [] as any[],
   })
 
+  const fetchPage = async () => {
+  try {
+    const res = await axios.get(`/pages/id/${id}`)
+    const data = res.data.data
+
+    console.log("Fetched Page:", data)
+
+    setForm({
+      title: data.title || "",
+      slug: data.slug || "",
+      meta: {
+        title: data.meta?.title || "",
+        description: data.meta?.description || "",
+        keywords: data.meta?.keywords || [],
+      },
+      tools: data.tools || [],
+      faq: data.faq || [],
+    })
+
+    setContent(data.content || "")
+
+  } catch (err) {
+    console.error("Fetch error:", err)
+  }
+}
+
+useEffect(() => {
+  if (isEdit) {
+    fetchPage()
+  }
+}, [id])
   // =========================
   // 🔹 META HANDLER
   // =========================
@@ -107,24 +144,31 @@ export default function PageEditor() {
     const finalStatus = validStatus.includes(status)
       ? status
       : "draft"
+      
 
     const payload = {
-      ...form,
+  ...form,
 
-      tools: form.tools.map((t: any) => ({
-        toolId: t.toolId,
-        customDescription: t.customDescription,
-        rating: t.rating,
-      })),
+  tools: form.tools.map((t: any) => ({
+    toolId: t.toolId,
+    customDescription: t.customDescription,
+    rating: t.rating,
+  })),
 
-      content,
-      status: finalStatus, // 🔥 FIXED
-    }
+  faq: form.faq.map((f: any) => ({
+    question: f.question,
+    answer: f.answer,
+  })),
 
-    console.log("PAYLOAD:", payload)
+  content,
+  status,
+}
 
-    await axios.post("/pages", payload)
-
+    if (isEdit) {
+  await axios.put(`/pages/${id}`, payload)
+} else {
+  await axios.post("/pages", payload)
+}
     alert(`Page ${finalStatus}`)
 
     navigate("/pages")
@@ -140,7 +184,9 @@ export default function PageEditor() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
 
-      <h1 className="text-2xl font-bold">Create Page</h1>
+      <h1 className="text-2xl font-bold">
+  {isEdit ? "Edit Page" : "Create Page"}
+</h1>
 
       {/* TITLE */}
       <input

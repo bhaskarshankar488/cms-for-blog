@@ -1,6 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-
+import { useEffect } from "react"
 import Link from "@tiptap/extension-link"
 import Color from "@tiptap/extension-color"
 import { TextStyle } from "@tiptap/extension-text-style"
@@ -9,19 +9,15 @@ import Underline from "@tiptap/extension-underline"
 import TextAlign from "@tiptap/extension-text-align"
 
 export default function RichTextEditor({ value, onChange }: any) {
+
   const editor = useEditor({
     extensions: [
       StarterKit,
-
-      Link.configure({
-        openOnClick: false, // 🔥 allows editing links
-      }),
-
+      Link.configure({ openOnClick: false }),
       TextStyle,
       Color,
       Image,
       Underline,
-
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -34,8 +30,14 @@ export default function RichTextEditor({ value, onChange }: any) {
     },
   })
 
-  if (!editor) return null
+  // 🔥 THIS IS THE FIX
+  useEffect(() => {
+    if (editor && value) {
+      editor.commands.setContent(value)
+    }
+  }, [value, editor])
 
+  if (!editor) return null
   return (
     <div className="border rounded p-3 bg-white">
 
