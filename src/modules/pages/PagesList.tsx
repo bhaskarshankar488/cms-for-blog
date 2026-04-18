@@ -116,6 +116,12 @@ export default function PagesList() {
                     >
                       Delete
                     </button>
+                    <button
+                      onClick={() => window.open(`/preview/${page.slug}`, "_blank")}
+                      className="text-purple-600"
+                    >
+                      Preview
+                    </button>
                   </td>
                 </tr>
               ))}
