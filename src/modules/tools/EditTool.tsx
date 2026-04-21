@@ -31,7 +31,9 @@ export default function EditTool() {
         slug: data.slug,
         image: data.image,
         brand: data.brand,
+        link:data.link,
         tags:data.tags,
+
         globalDescription: data.globalDescription,
       }
 

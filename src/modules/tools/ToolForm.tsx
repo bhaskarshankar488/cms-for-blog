@@ -6,6 +6,7 @@ export default function ToolForm({ initialData, onSubmit }: any) {
     slug: "",
     image: "",
     brand: "",
+    link: "", // ✅ ADDED
     globalDescription: "",
     tags: [""],
   })
@@ -23,6 +24,18 @@ export default function ToolForm({ initialData, onSubmit }: any) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+  // ✅ Auto-generate slug from name
+  useEffect(() => {
+    if (form.name) {
+      const slug = form.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      setForm((prev) => ({ ...prev, slug }))
+    }
+  }, [form.name])
+
   // ✅ Tag change
   const handleTagChange = (index: number, value: string) => {
     const updated = [...form.tags]
@@ -38,7 +51,7 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
   // ✅ Remove tag
   const removeTag = (index: number) => {
-    const updated = form.tags.filter((_: any, i: number) => i !== index)
+    const updated = form.tags.filter((_, i) => i !== index)
     setForm({ ...form, tags: updated })
   }
 
@@ -46,12 +59,16 @@ export default function ToolForm({ initialData, onSubmit }: any) {
   const handleSubmit = () => {
     const filteredTags = form.tags.filter((t: string) => t.trim() !== "")
 
+    if (!form.name || !form.brand || !form.link) {
+      alert("Name, Brand and Link are required")
+      return
+    }
+
     if (filteredTags.length === 0 || filteredTags.length > 3) {
       alert("Please enter 1 to 3 tags only")
       return
     }
 
-    // ✅ FIXED: send tags
     onSubmit({ ...form, tags: filteredTags })
   }
 
@@ -68,10 +85,10 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
       <input
         name="slug"
-        placeholder="Slug"
+        placeholder="Slug (auto-generated)"
         value={form.slug}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
+        readOnly
+        className="w-full p-2 border rounded bg-gray-100"
       />
 
       <input
@@ -86,6 +103,15 @@ export default function ToolForm({ initialData, onSubmit }: any) {
         name="brand"
         placeholder="Brand"
         value={form.brand}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+      />
+
+      {/* ✅ NEW FIELD */}
+      <input
+        name="link"
+        placeholder="Tool Website URL"
+        value={form.link}
         onChange={handleChange}
         className="w-full p-2 border rounded"
       />
@@ -106,9 +132,7 @@ export default function ToolForm({ initialData, onSubmit }: any) {
           <div key={index} className="flex gap-2 mt-2">
             <input
               value={tag}
-              onChange={(e) =>
-                handleTagChange(index, e.target.value)
-              }
+              onChange={(e) => handleTagChange(index, e.target.value)}
               placeholder={`Tag ${index + 1}`}
               className="w-full p-2 border rounded"
             />
