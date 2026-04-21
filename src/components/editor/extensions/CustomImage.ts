@@ -6,7 +6,9 @@ export const CustomImage = Image.extend({
       ...this.parent?.(),
 
       width: {
-        default: "100%",
+        default: null,
+        parseHTML: (element: HTMLElement) =>
+          element.style.width || element.getAttribute("width"),
       },
 
       align: {
@@ -22,7 +24,14 @@ export const CustomImage = Image.extend({
       [key: string]: any
     }
 
-    let style = `width:${width || "100%"}; display:block;`
+    let style = `display:block;`
+
+    // ✅ FIX: safe width handling
+    if (width) {
+      style += ` width:${width};`
+    } else {
+      style += ` width:100%;`
+    }
 
     if (align === "center") {
       style += " margin:20px auto;"

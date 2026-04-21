@@ -189,12 +189,11 @@ useEffect(() => {
             if (url) {
               const width = prompt("Width (e.g. 300px or 100%)", "100%")
               const align = prompt("Align: left / center / right", "center")
-
-              editor.chain().focus().setImage({
-                src: url,
-                width: width || "100%",
-                align: align || "center",
-              }).run()
+editor.chain().focus().setImage({
+  src: url,
+  ...(width ? { width: width as unknown as number } : {}),
+  ...(align ? { align } : {}),
+} as any).run()
             }
           }}
         >
