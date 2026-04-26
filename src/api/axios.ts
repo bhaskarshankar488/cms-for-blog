@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosInstance = axios.create({
-  baseURL: "https://blog-backend-for-cms-3.onrender.com/api",
+  baseURL: "http://localhost:5000/api",
   withCredentials: true, // 🔥 REQUIRED for session cookies
 })
 

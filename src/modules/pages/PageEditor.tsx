@@ -19,11 +19,13 @@ const isEdit = Boolean(id)
   // 🔥 TOOL SEARCH
   const [toolSearch, setToolSearch] = useState("")
   const [toolResults, setToolResults] = useState<any[]>([])
+  const [categories, setCategories] = useState<any[]>([])
 
   // 🔥 MAIN FORM
   const [form, setForm] = useState({
     title: "",
     slug: "",
+    categoryId: "",
     meta: {
       title: "",
       description: "",
@@ -32,6 +34,15 @@ const isEdit = Boolean(id)
     tools: [] as any[],
     faq: [] as any[],
   })
+
+  const fetchCategories = async () => {
+  try {
+    const res = await axios.get("/categories")
+    setCategories(res.data.data || [])
+  } catch (err) {
+    console.error(err)
+  }
+}
 
   const fetchPage = async () => {
   try {
@@ -43,6 +54,7 @@ const isEdit = Boolean(id)
     setForm({
       title: data.title || "",
       slug: data.slug || "",
+      categoryId: data.categoryId || "",
       meta: {
         title: data.meta?.title || "",
         description: data.meta?.description || "",
@@ -58,6 +70,10 @@ const isEdit = Boolean(id)
     console.error("Fetch error:", err)
   }
 }
+
+useEffect(() => {
+  fetchCategories()
+}, [])
 
 useEffect(() => {
   if (isEdit) {
@@ -205,6 +221,22 @@ useEffect(() => {
         value={form.slug}
         onChange={handleChange}
       />
+
+      <select
+  className="w-full p-2 border rounded"
+  value={form.categoryId}
+  onChange={(e) =>
+    setForm({ ...form, categoryId: e.target.value })
+  }
+>
+  <option value="">Select Category</option>
+
+  {categories.map((cat) => (
+    <option key={cat._id} value={cat._id}>
+      {cat.name}
+    </option>
+  ))}
+</select>
 
       {/* META TITLE */}
       <input

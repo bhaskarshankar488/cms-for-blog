@@ -13,6 +13,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <Link to="/" className="block">Dashboard</Link>
           <Link to="/pages" className="block">Pages</Link>
           <Link to="/tools" className="block">tools</Link>
+          <Link to="/categories" className="block">categories</Link>
+
         </nav>
       </div>
 

@@ -8,6 +8,9 @@ import ToolsList from "./modules/tools/ToolsList"
 import CreateTool from "./modules/tools/CreateTool"
 import EditTool from "./modules/tools/EditTool"
 import PreviewPage from "./modules/pages/PreviewPage"
+import CategoriesList from "./modules/categories/CategoriesList"
+import CreateCategory from "./modules/categories/CreateCategory"
+import EditCategory from "./modules/categories/EditCategory"
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
                   <Route path="/tools/new" element={<CreateTool />} />
                   <Route path="/tools/edit/:id" element={<EditTool />} />
                   <Route path="/preview/:slug" element={<PreviewPage />} />
+                  <Route path="/categories" element={<CategoriesList />} />
+                  <Route path="/categories/new" element={<CreateCategory />} />
+                  <Route path="/categories/edit/:id" element={<EditCategory />} />
                 </Routes>
               </AdminLayout>
             </ProtectedRoute>
