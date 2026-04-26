@@ -19,7 +19,6 @@ export default function CategoryForm({ initialData, onSubmit }: any) {
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-    console.log("Category:", category)
   }
 
   return (
