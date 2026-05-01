@@ -1,12 +1,39 @@
 import { useState, useEffect } from "react"
 
-export default function ToolForm({ initialData, onSubmit }: any) {
+const AVAILABLE_TAGS = [
+  "Free",
+  "Freemium",
+  "Paid",
+  "Beginner",
+  "No-Code",
+  "Developer",
+  "Top Rated",
+  "Trending",
+  "Popular",
+  "New",
+]
 
-  const [form, setForm] = useState({
+export default function ToolForm({
+  initialData,
+  onSubmit,
+}: any) {
+
+  const [form, setForm] = useState<{
+    name: string
+    slug: string
+    image: {
+      url: string
+      public_id: string
+    }
+    brand: string
+    link: string
+    globalDescription: string
+    tags: string[]
+  }>({
     name: "",
     slug: "",
 
-    // ✅ image object now
+    // ✅ image object
     image: {
       url: "",
       public_id: "",
@@ -15,18 +42,21 @@ export default function ToolForm({ initialData, onSubmit }: any) {
     brand: "",
     link: "",
     globalDescription: "",
-    tags: [""],
+    tags: [],
   })
 
   // ✅ file state
-  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imageFile, setImageFile] =
+    useState<File | null>(null)
 
   // ✅ preview state
   const [preview, setPreview] = useState("")
 
   // ✅ edit mode load
   useEffect(() => {
+
     if (initialData) {
+
       setForm({
         ...initialData,
 
@@ -37,16 +67,20 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
         tags: initialData.tags?.length
           ? initialData.tags
-          : [""],
+          : [],
       })
 
       // ✅ existing DB image preview
-      setPreview(initialData.image?.url || "")
+      setPreview(
+        initialData.image?.url || ""
+      )
     }
+
   }, [initialData])
 
   // ✅ input change
   const handleChange = (e: any) => {
+
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -55,7 +89,9 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
   // ✅ slug auto generate
   useEffect(() => {
+
     if (form.name) {
+
       const slug = form.name
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
@@ -66,6 +102,7 @@ export default function ToolForm({ initialData, onSubmit }: any) {
         slug,
       }))
     }
+
   }, [form.name])
 
   // ✅ image upload
@@ -79,8 +116,9 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
     setImageFile(file)
 
-    // preview
-    const imageUrl = URL.createObjectURL(file)
+    // ✅ preview
+    const imageUrl =
+      URL.createObjectURL(file)
 
     setPreview(imageUrl)
   }
@@ -94,6 +132,7 @@ export default function ToolForm({ initialData, onSubmit }: any) {
 
     setForm({
       ...form,
+
       image: {
         url: "",
         public_id: "",
@@ -101,54 +140,56 @@ export default function ToolForm({ initialData, onSubmit }: any) {
     })
   }
 
-  // ✅ tag change
-  const handleTagChange = (
-    index: number,
-    value: string
-  ) => {
+  // ✅ tag toggle
+  const toggleTag = (tag: string) => {
 
-    const updated = [...form.tags]
+    const exists =
+      form.tags.includes(tag)
 
-    updated[index] = value
+    // ✅ remove
+    if (exists) {
 
+      setForm({
+        ...form,
+
+        tags: form.tags.filter(
+          (t) => t !== tag
+        ),
+      })
+
+      return
+    }
+
+    // ✅ max 3
+    if (form.tags.length >= 3) {
+      return
+    }
+
+    // ✅ add
     setForm({
       ...form,
-      tags: updated,
-    })
-  }
 
-  // ✅ add tag
-  const addTag = () => {
-    if (form.tags.length >= 3) return
-
-    setForm({
-      ...form,
-      tags: [...form.tags, ""],
-    })
-  }
-
-  // ✅ remove tag
-  const removeTag = (index: number) => {
-
-    const updated = form.tags.filter(
-      (_: any, i: number) => i !== index
-    )
-
-    setForm({
-      ...form,
-      tags: updated,
+      tags: [...form.tags, tag],
     })
   }
 
   // ✅ submit
   const handleSubmit = () => {
 
-    const filteredTags = form.tags.filter(
-      (t: string) => t.trim() !== ""
-    )
+    const filteredTags =
+      form.tags.filter(
+        (t) => t.trim() !== ""
+      )
 
-    if (!form.name || !form.brand || !form.link) {
-      alert("Name, Brand and Link are required")
+    if (
+      !form.name ||
+      !form.brand ||
+      !form.link
+    ) {
+      alert(
+        "Name, Brand and Link are required"
+      )
+
       return
     }
 
@@ -156,35 +197,69 @@ export default function ToolForm({ initialData, onSubmit }: any) {
       filteredTags.length === 0 ||
       filteredTags.length > 3
     ) {
-      alert("Please enter 1 to 3 tags only")
+      alert(
+        "Please select 1 to 3 tags only"
+      )
+
       return
     }
 
-    // ✅ form data for image upload
+    // ✅ form data
     const formData = new FormData()
 
-    formData.append("name", form.name)
-    formData.append("slug", form.slug)
-    formData.append("brand", form.brand)
-    formData.append("link", form.link)
+    formData.append(
+      "name",
+      form.name
+    )
+
+    formData.append(
+      "slug",
+      form.slug
+    )
+
+    formData.append(
+      "brand",
+      form.brand
+    )
+
+    formData.append(
+      "link",
+      form.link
+    )
+
     formData.append(
       "globalDescription",
       form.globalDescription
     )
 
-    filteredTags.forEach((tag: string) => {
-      formData.append("tags", tag)
-    })
+    filteredTags.forEach(
+      (tag: string) => {
 
-    // ✅ only append new image if selected
+        formData.append(
+          "tags",
+          tag
+        )
+      }
+    )
+
+    // ✅ new image
     if (imageFile) {
-      formData.append("image", imageFile)
-    }
 
-    // ✅ if edit mode and no new image
-    if (!imageFile && form.image?.url) {
       formData.append(
         "image",
+        imageFile
+      )
+    }
+
+    // ✅ existing image in edit mode
+    if (
+      !imageFile &&
+      form.image?.url
+    ) {
+
+      formData.append(
+        "image",
+
         JSON.stringify(form.image)
       )
     }
@@ -279,56 +354,53 @@ export default function ToolForm({ initialData, onSubmit }: any) {
       />
 
       {/* TAGS */}
-      <div>
+      <div className="space-y-3">
 
         <label className="font-semibold">
-          Tags (max 3)
+          Select Tags (max 3)
         </label>
 
-        {form.tags.map(
-          (tag: string, index: number) => (
-            <div
-              key={index}
-              className="flex gap-2 mt-2"
-            >
+        <div className="flex flex-wrap gap-2">
 
-              <input
-                value={tag}
-                onChange={(e) =>
-                  handleTagChange(
-                    index,
-                    e.target.value
-                  )
+          {AVAILABLE_TAGS.map((tag) => {
+
+            const selected =
+              form.tags.includes(tag)
+
+            const disabled =
+              !selected &&
+              form.tags.length >= 3
+
+            return (
+              <button
+                key={tag}
+                type="button"
+                onClick={() =>
+                  toggleTag(tag)
                 }
-                placeholder={`Tag ${index + 1}`}
-                className="w-full p-2 border rounded"
-              />
+                disabled={disabled}
+                className={`
+                  px-4 py-2 rounded border text-sm transition
 
-              {form.tags.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    removeTag(index)
+                  ${
+                    selected
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-black border-gray-300"
                   }
-                  className="bg-red-500 text-white px-3 rounded"
-                >
-                  ✕
-                </button>
-              )}
 
-            </div>
-          )
-        )}
+                  ${
+                    disabled
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-gray-100"
+                  }
+                `}
+              >
+                {tag}
+              </button>
+            )
+          })}
 
-        {form.tags.length < 3 && (
-          <button
-            type="button"
-            onClick={addTag}
-            className="mt-2 text-sm text-blue-600"
-          >
-            + Add Tag
-          </button>
-        )}
+        </div>
 
       </div>
 
