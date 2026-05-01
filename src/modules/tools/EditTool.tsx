@@ -24,29 +24,30 @@ export default function EditTool() {
     fetchTool()
   }, [id])
 
-  const handleUpdate = async (data: any) => {
-    try {
-      const payload = {
-        name: data.name,
-        slug: data.slug,
-        image: data.image,
-        brand: data.brand,
-        link:data.link,
-        tags:data.tags,
+const handleUpdate = async (formData: any) => {
+  try {
 
-        globalDescription: data.globalDescription,
+    await axios.put(
+      `/tools/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
+    )
 
-      await axios.put(`/tools/${id}`, payload)
+    alert("Tool updated")
 
-      alert("Tool updated")
-      navigate("/tools")
+    navigate("/tools")
 
-    } catch (err: any) {
-      console.error(err.response?.data)
-      alert(JSON.stringify(err.response?.data))
-    }
+  } catch (err: any) {
+
+    console.error(err.response?.data)
+
+    alert(JSON.stringify(err.response?.data))
   }
+}
 
   if (!tool) {
     return <p className="text-center mt-10">Loading tool...</p>
