@@ -9,7 +9,7 @@ export default function PageEditor() {
 
 
   const { id } = useParams()
-const isEdit = Boolean(id)
+  const isEdit = Boolean(id)
 
   const navigate = useNavigate()
 
@@ -25,6 +25,7 @@ const isEdit = Boolean(id)
   const [form, setForm] = useState({
     title: "",
     slug: "",
+    pagedescrption: "",
     categoryId: "",
     meta: {
       title: "",
@@ -36,50 +37,51 @@ const isEdit = Boolean(id)
   })
 
   const fetchCategories = async () => {
-  try {
-    const res = await axios.get("/categories")
-    setCategories(res.data.data || [])
-  } catch (err) {
-    console.error(err)
+    try {
+      const res = await axios.get("/categories")
+      setCategories(res.data.data || [])
+    } catch (err) {
+      console.error(err)
+    }
   }
-}
 
   const fetchPage = async () => {
-  try {
-    const res = await axios.get(`/pages/id/${id}`)
-    const data = res.data.data
+    try {
+      const res = await axios.get(`/pages/id/${id}`)
+      const data = res.data.data
 
-    console.log("Fetched Page:", data)
+      console.log("Fetched Page:", data)
 
-    setForm({
-      title: data.title || "",
-      slug: data.slug || "",
-      categoryId: data.categoryId || "",
-      meta: {
-        title: data.meta?.title || "",
-        description: data.meta?.description || "",
-        keywords: data.meta?.keywords || [],
-      },
-      tools: data.tools || [],
-      faq: data.faq || [],
-    })
+      setForm({
+        title: data.title || "",
+        slug: data.slug || "",
+        pagedescrption: data.pagedescription || "",
+        categoryId: data.categoryId || "",
+        meta: {
+          title: data.meta?.title || "",
+          description: data.meta?.description || "",
+          keywords: data.meta?.keywords || [],
+        },
+        tools: data.tools || [],
+        faq: data.faq || [],
+      })
 
-    setContent(data.content || "")
+      setContent(data.content || "")
 
-  } catch (err) {
-    console.error("Fetch error:", err)
+    } catch (err) {
+      console.error("Fetch error:", err)
+    }
   }
-}
 
-useEffect(() => {
-  fetchCategories()
-}, [])
+  useEffect(() => {
+    fetchCategories()
+  }, [])
 
-useEffect(() => {
-  if (isEdit) {
-    fetchPage()
-  }
-}, [id])
+  useEffect(() => {
+    if (isEdit) {
+      fetchPage()
+    }
+  }, [id])
   // =========================
   // 🔹 META HANDLER
   // =========================
@@ -154,46 +156,46 @@ useEffect(() => {
   // 🔹 SUBMIT
   // =========================
   const handleSubmit = async (status: string = "draft") => {
-  try {
-    const validStatus = ["draft", "published", "unpublished"]
+    try {
+      const validStatus = ["draft", "published", "unpublished"]
 
-    const finalStatus = validStatus.includes(status)
-      ? status
-      : "draft"
-      
+      const finalStatus = validStatus.includes(status)
+        ? status
+        : "draft"
 
-    const payload = {
-  ...form,
 
-  tools: form.tools.map((t: any) => ({
-    toolId: t.toolId,
-    customDescription: t.customDescription,
-    rating: t.rating,
-  })),
+      const payload = {
+        ...form,
 
-  faq: form.faq.map((f: any) => ({
-    question: f.question,
-    answer: f.answer,
-  })),
+        tools: form.tools.map((t: any) => ({
+          toolId: t.toolId,
+          customDescription: t.customDescription,
+          rating: t.rating,
+        })),
 
-  content,
-  status,
-}
+        faq: form.faq.map((f: any) => ({
+          question: f.question,
+          answer: f.answer,
+        })),
 
-    if (isEdit) {
-  await axios.put(`/pages/${id}`, payload)
-} else {
-  await axios.post("/pages", payload)
-}
-    alert(`Page ${finalStatus}`)
+        content,
+        status,
+      }
 
-    navigate("/pages")
+      if (isEdit) {
+        await axios.put(`/pages/${id}`, payload)
+      } else {
+        await axios.post("/pages", payload)
+      }
+      alert(`Page ${finalStatus}`)
 
-  } catch (err: any) {
-    console.error(err.response?.data)
-    alert(JSON.stringify(err.response?.data))
+      navigate("/pages")
+
+    } catch (err: any) {
+      console.error(err.response?.data)
+      alert(JSON.stringify(err.response?.data))
+    }
   }
-}
   // =========================
   // 🔹 UI
   // =========================
@@ -201,8 +203,8 @@ useEffect(() => {
     <div className="max-w-4xl mx-auto space-y-6">
 
       <h1 className="text-2xl font-bold">
-  {isEdit ? "Edit Page" : "Create Page"}
-</h1>
+        {isEdit ? "Edit Page" : "Create Page"}
+      </h1>
 
       {/* TITLE */}
       <input
@@ -221,22 +223,32 @@ useEffect(() => {
         value={form.slug}
         onChange={handleChange}
       />
+      {/* pagedescription */}
+      <input
+        name="pagedescription"
+        placeholder="page description"
+        className="w-full p-2 border rounded"
+        value={form.pagedescrption}
+        onChange={(e) =>
+          setForm({ ...form, pagedescrption: e.target.value })
+        }
+      />
 
       <select
-  className="w-full p-2 border rounded"
-  value={form.categoryId}
-  onChange={(e) =>
-    setForm({ ...form, categoryId: e.target.value })
-  }
->
-  <option value="">Select Category</option>
+        className="w-full p-2 border rounded"
+        value={form.categoryId}
+        onChange={(e) =>
+          setForm({ ...form, categoryId: e.target.value })
+        }
+      >
+        <option value="">Select Category</option>
 
-  {categories.map((cat) => (
-    <option key={cat._id} value={cat._id}>
-      {cat.name}
-    </option>
-  ))}
-</select>
+        {categories.map((cat) => (
+          <option key={cat._id} value={cat._id}>
+            {cat.name}
+          </option>
+        ))}
+      </select>
 
       {/* META TITLE */}
       <input
@@ -264,7 +276,7 @@ useEffect(() => {
         }
       />
 
-      
+
 
       {/* ================= TOOLS ================= */}
       <h2 className="text-xl font-semibold">Tools</h2>
@@ -384,31 +396,31 @@ useEffect(() => {
       {/* ================= SAVE ================= */}
       <div className="flex gap-4 mt-6">
 
-  {/* SAVE DRAFT */}
-  <button
-    onClick={() => handleSubmit("draft")}
-    className="bg-gray-600 text-white px-4 py-2 rounded-lg"
-  >
-    Save Draft
-  </button>
+        {/* SAVE DRAFT */}
+        <button
+          onClick={() => handleSubmit("draft")}
+          className="bg-gray-600 text-white px-4 py-2 rounded-lg"
+        >
+          Save Draft
+        </button>
 
-  {/* SAVE ONLY (KEEP CURRENT STATUS OR DEFAULT) */}
-  <button
-    onClick={() => handleSubmit("draft")}
-    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-  >
-    Save
-  </button>
+        {/* SAVE ONLY (KEEP CURRENT STATUS OR DEFAULT) */}
+        <button
+          onClick={() => handleSubmit("draft")}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+        >
+          Save
+        </button>
 
-  {/* PUBLISH */}
-  <button
-    onClick={() => handleSubmit("published")}
-    className="bg-green-600 text-white px-4 py-2 rounded-lg"
-  >
-    Publish
-  </button>
+        {/* PUBLISH */}
+        <button
+          onClick={() => handleSubmit("published")}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg"
+        >
+          Publish
+        </button>
 
-</div>
+      </div>
     </div>
   )
 }

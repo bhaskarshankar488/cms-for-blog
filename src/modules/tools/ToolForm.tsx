@@ -29,6 +29,12 @@ export default function ToolForm({
     link: string
     globalDescription: string
     tags: string[]
+
+    // ✅ NEW FIELDS
+    ratingValue: number | string
+    ratingCount: number | string
+    reviewCount: number | string
+
   }>({
     name: "",
     slug: "",
@@ -43,6 +49,11 @@ export default function ToolForm({
     link: "",
     globalDescription: "",
     tags: [],
+
+    // ✅ DEFAULT VALUES
+    ratingValue: "",
+    ratingCount: "",
+    reviewCount: "",
   })
 
   // ✅ file state
@@ -68,6 +79,16 @@ export default function ToolForm({
         tags: initialData.tags?.length
           ? initialData.tags
           : [],
+
+        // ✅ LOAD NEW FIELDS
+        ratingValue:
+          initialData.ratingValue ?? "",
+
+        ratingCount:
+          initialData.ratingCount ?? "",
+
+        reviewCount:
+          initialData.reviewCount ?? "",
       })
 
       // ✅ existing DB image preview
@@ -193,6 +214,21 @@ export default function ToolForm({
       return
     }
 
+    // ✅ rating validation
+    if (
+      form.ratingValue !== "" &&
+      (
+        Number(form.ratingValue) < 0 ||
+        Number(form.ratingValue) > 5
+      )
+    ) {
+      alert(
+        "Rating Value must be between 0 and 5"
+      )
+
+      return
+    }
+
     if (
       filteredTags.length === 0 ||
       filteredTags.length > 3
@@ -231,6 +267,31 @@ export default function ToolForm({
       "globalDescription",
       form.globalDescription
     )
+
+    // ✅ OPTIONAL NEW FIELDS
+    if (form.ratingValue !== "") {
+
+      formData.append(
+        "ratingValue",
+        String(form.ratingValue)
+      )
+    }
+
+    if (form.ratingCount !== "") {
+
+      formData.append(
+        "ratingCount",
+        String(form.ratingCount)
+      )
+    }
+
+    if (form.reviewCount !== "") {
+
+      formData.append(
+        "reviewCount",
+        String(form.reviewCount)
+      )
+    }
 
     filteredTags.forEach(
       (tag: string) => {
@@ -352,6 +413,46 @@ export default function ToolForm({
         onChange={handleChange}
         className="w-full p-2 border rounded"
       />
+
+      {/* ✅ NEW RATING SECTION */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        {/* Rating Value */}
+        <input
+          type="number"
+          name="ratingValue"
+          placeholder="Rating Value (0-5)"
+          value={form.ratingValue}
+          onChange={handleChange}
+          min={0}
+          max={5}
+          step="0.1"
+          className="w-full p-2 border rounded"
+        />
+
+        {/* Rating Count */}
+        <input
+          type="number"
+          name="ratingCount"
+          placeholder="Rating Count"
+          value={form.ratingCount}
+          onChange={handleChange}
+          min={0}
+          className="w-full p-2 border rounded"
+        />
+
+        {/* Review Count */}
+        <input
+          type="number"
+          name="reviewCount"
+          placeholder="Review Count"
+          value={form.reviewCount}
+          onChange={handleChange}
+          min={0}
+          className="w-full p-2 border rounded"
+        />
+
+      </div>
 
       {/* TAGS */}
       <div className="space-y-3">

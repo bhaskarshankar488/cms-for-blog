@@ -7,6 +7,9 @@ type Page = {
   _id: string
   title: string
   slug: string
+    categoryId?: {
+    slug: string
+  }
   status: "draft" | "published" | "unpublished"
 }
 
@@ -82,7 +85,7 @@ export default function PagesList() {
               {pages.map((page) => (
                 <tr key={page._id} className="border-t">
                   <td className="p-4">{page.title}</td>
-                  <td className="p-4 text-gray-500">{page.slug}</td>
+                  <td className="p-4 text-gray-500">{page.categoryId?.slug}/{page.slug}</td>
 
                   <td className="p-4">
                     <StatusBadge status={page.status} />
