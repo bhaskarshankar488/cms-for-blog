@@ -25,13 +25,13 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       
       {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md p-4 flex flex-col justify-between">
+      <div className="w-64 bg-white shadow-md p-4 flex flex-col justify-between flex-shrink-0">
         
         {/* Top */}
-        <div>
+        <div className="overflow-y-auto">
           <h2 className="text-xl font-bold mb-6">CMS</h2>
 
           <nav className="space-y-3">
@@ -77,7 +77,7 @@ export default function AdminLayout({
       </div>
 
       {/* Main */}
-      <div className="flex-1 p-6 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
         {children}
       </div>
     </div>
