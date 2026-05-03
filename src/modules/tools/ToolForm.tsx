@@ -63,6 +63,10 @@ export default function ToolForm({
   // ✅ preview state
   const [preview, setPreview] = useState("")
 
+  // ✅ TRACK MANUAL SLUG EDIT
+  const [slugTouched, setSlugTouched] =
+    useState(false)
+
   // ✅ edit mode load
   useEffect(() => {
 
@@ -111,20 +115,41 @@ export default function ToolForm({
   // ✅ slug auto generate
   useEffect(() => {
 
-    if (form.name) {
+    // ❌ don't overwrite manual slug
+    if (slugTouched) return
 
-      const slug = form.name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "")
+    // ❌ don't overwrite edit slug
+    if (initialData && form.slug) return
+
+    // ❌ empty name
+    if (!form.name) {
 
       setForm((prev) => ({
         ...prev,
-        slug,
+        slug: "",
       }))
+
+      return
     }
 
-  }, [form.name])
+    // ✅ generate slug
+    const slug = form.name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+
+    setForm((prev) => ({
+      ...prev,
+      slug,
+    }))
+
+  }, [
+    form.name,
+    slugTouched,
+    initialData,
+  ])
 
   // ✅ image upload
   const handleImageChange = (
@@ -343,10 +368,25 @@ export default function ToolForm({
       {/* SLUG */}
       <input
         name="slug"
-        placeholder="Slug (auto-generated)"
+        placeholder="Slug"
         value={form.slug}
-        readOnly
-        className="w-full p-2 border rounded bg-gray-100"
+        onChange={(e) => {
+
+          setSlugTouched(true)
+
+          const value = e.target.value
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
+
+          setForm({
+            ...form,
+            slug: value,
+          })
+        }}
+        className="w-full p-2 border rounded"
       />
 
       {/* IMAGE SECTION */}

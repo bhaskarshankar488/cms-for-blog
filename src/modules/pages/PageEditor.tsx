@@ -20,6 +20,10 @@ export default function PageEditor() {
   const [toolResults, setToolResults] = useState<any[]>([])
   const [categories, setCategories] = useState<any[]>([])
 
+  // 🔥 TRACK MANUAL SLUG EDIT
+  const [slugTouched, setSlugTouched] =
+    useState(false)
+
   // 🔥 MAIN FORM
   const [form, setForm] = useState({
     title: "",
@@ -140,6 +144,13 @@ export default function PageEditor() {
   // =========================
   useEffect(() => {
 
+    // ❌ Don't overwrite manually edited slug
+    if (slugTouched) return
+
+    // ❌ Don't overwrite existing edit slug
+    if (isEdit && form.slug) return
+
+    // ❌ Empty title
     if (!form.title) {
 
       setForm((prev) => ({
@@ -150,6 +161,7 @@ export default function PageEditor() {
       return
     }
 
+    // ✅ Generate slug
     const generatedSlug = form.title
       .toLowerCase()
       .trim()
@@ -162,7 +174,11 @@ export default function PageEditor() {
       slug: generatedSlug,
     }))
 
-  }, [form.title])
+  }, [
+    form.title,
+    slugTouched,
+    isEdit,
+  ])
 
   // =========================
   // 🔹 HANDLE CHANGE
@@ -412,9 +428,23 @@ export default function PageEditor() {
       <input
         name="slug"
         placeholder="Slug"
-        className="w-full p-2 border rounded bg-gray-100"
+        className="w-full p-2 border rounded"
         value={form.slug}
-        readOnly
+        onChange={(e) => {
+
+          setSlugTouched(true)
+
+          const value = e.target.value
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
+
+          setForm({
+            ...form,
+            slug: value,
+          })
+        }}
       />
 
       {/* PAGE DESCRIPTION */}

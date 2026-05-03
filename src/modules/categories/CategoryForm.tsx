@@ -10,6 +10,10 @@ export default function CategoryForm({
     slug: "",
   })
 
+  // ✅ TRACK MANUAL SLUG EDIT
+  const [slugTouched, setSlugTouched] =
+    useState(false)
+
   // =========================
   // 🔹 LOAD EDIT DATA
   // =========================
@@ -33,6 +37,13 @@ export default function CategoryForm({
   // =========================
   useEffect(() => {
 
+    // ❌ don't overwrite manual slug
+    if (slugTouched) return
+
+    // ❌ don't overwrite edit slug
+    if (initialData && form.slug) return
+
+    // ❌ empty name
     if (!form.name) {
 
       setForm((prev) => ({
@@ -43,6 +54,7 @@ export default function CategoryForm({
       return
     }
 
+    // ✅ generate slug
     const generatedSlug = form.name
       .toLowerCase()
       .trim()
@@ -55,7 +67,11 @@ export default function CategoryForm({
       slug: generatedSlug,
     }))
 
-  }, [form.name])
+  }, [
+    form.name,
+    slugTouched,
+    initialData,
+  ])
 
   // =========================
   // 🔹 HANDLE CHANGE
@@ -80,13 +96,28 @@ export default function CategoryForm({
         className="w-full p-2 border rounded"
       />
 
-      {/* AUTO GENERATED SLUG */}
+      {/* SLUG */}
       <input
         name="slug"
         placeholder="Slug"
         value={form.slug}
-        readOnly
-        className="w-full p-2 border rounded bg-gray-100"
+        onChange={(e) => {
+
+          setSlugTouched(true)
+
+          const value = e.target.value
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
+
+          setForm({
+            ...form,
+            slug: value,
+          })
+        }}
+        className="w-full p-2 border rounded"
       />
 
       {/* SAVE */}
