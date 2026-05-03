@@ -78,7 +78,9 @@ export default function PageEditor() {
           data.pageDescription || "",
 
         categoryId:
-          data.categoryId || "",
+          data.categoryId?._id ||
+          data.categoryId ||
+          "",
 
         meta: {
           title:
