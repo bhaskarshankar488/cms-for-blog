@@ -53,14 +53,16 @@ const handleUpdate = async (formData: any) => {
     return <p className="text-center mt-10">Loading tool...</p>
   }
 
-  return (
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Edit Tool</h1>
+return (
+  <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+      Edit Tool
+    </h1>
 
-      <ToolForm
-        initialData={tool}
-        onSubmit={handleUpdate}
-      />
-    </div>
-  )
+    <ToolForm
+      initialData={tool}
+      onSubmit={handleUpdate}
+    />
+  </div>
+)
 }

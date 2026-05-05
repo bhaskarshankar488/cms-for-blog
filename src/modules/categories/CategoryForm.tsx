@@ -85,49 +85,49 @@ export default function CategoryForm({
   }
 
   return (
-    <div className="space-y-4">
+  <div className="space-y-4 max-w-lg mx-auto px-4">
 
-      {/* CATEGORY NAME */}
-      <input
-        name="name"
-        placeholder="Category Name"
-        value={form.name}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
-      />
+    {/* CATEGORY NAME */}
+    <input
+      name="name"
+      placeholder="Category Name"
+      value={form.name}
+      onChange={handleChange}
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+    />
 
-      {/* SLUG */}
-      <input
-        name="slug"
-        placeholder="Slug"
-        value={form.slug}
-        onChange={(e) => {
+    {/* SLUG */}
+    <input
+      name="slug"
+      placeholder="Slug"
+      value={form.slug}
+      onChange={(e) => {
 
-          setSlugTouched(true)
+        setSlugTouched(true)
 
-          const value = e.target.value
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\s-]/g, "")
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-")
+        const value = e.target.value
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
 
-          setForm({
-            ...form,
-            slug: value,
-          })
-        }}
-        className="w-full p-2 border rounded"
-      />
+        setForm({
+          ...form,
+          slug: value,
+        })
+      }}
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+    />
 
-      {/* SAVE */}
-      <button
-        onClick={() => onSubmit(form)}
-        className="bg-black text-white px-6 py-2 rounded"
-      >
-        Save Category
-      </button>
+    {/* SAVE */}
+    <button
+      onClick={() => onSubmit(form)}
+      className="w-full sm:w-auto bg-black text-white px-6 py-2 sm:py-3 rounded text-sm sm:text-base"
+    >
+      Save Category
+    </button>
 
-    </div>
-  )
+  </div>
+)
 }

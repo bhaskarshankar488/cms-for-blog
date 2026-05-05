@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "../../api/axios"
 
@@ -8,58 +8,50 @@ export default function AdminLayout({
   children: ReactNode
 }) {
   const navigate = useNavigate()
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
     try {
       const res = await axios.post("/auth/logout")
-
       if (res.data.success) {
         navigate("/login")
       }
     } catch (err: any) {
-      console.error(
-        "LOGOUT ERROR:",
-        err.response?.data || err
-      )
+      console.error("LOGOUT ERROR:", err.response?.data || err)
     }
   }
 
   return (
     <div className="flex h-screen overflow-hidden">
-      
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md p-4 flex flex-col justify-between flex-shrink-0">
-        
+
+      {/* 🔹 MOBILE OVERLAY */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* 🔹 SIDEBAR */}
+      <div
+        className={`fixed md:static z-50 top-0 left-0 h-full w-64 bg-white shadow-md p-4 flex flex-col justify-between transform transition-transform duration-300
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
         {/* Top */}
         <div className="overflow-y-auto">
           <h2 className="text-xl font-bold mb-6">CMS</h2>
 
           <nav className="space-y-3">
-            <Link
-              to="/"
-              className="block px-3 py-2 rounded hover:bg-gray-100"
-            >
+            <Link to="/" className="block px-3 py-2 rounded hover:bg-gray-100">
               Dashboard
             </Link>
-
-            <Link
-              to="/pages"
-              className="block px-3 py-2 rounded hover:bg-gray-100"
-            >
+            <Link to="/pages" className="block px-3 py-2 rounded hover:bg-gray-100">
               Pages
             </Link>
-
-            <Link
-              to="/tools"
-              className="block px-3 py-2 rounded hover:bg-gray-100"
-            >
+            <Link to="/tools" className="block px-3 py-2 rounded hover:bg-gray-100">
               Tools
             </Link>
-
-            <Link
-              to="/categories"
-              className="block px-3 py-2 rounded hover:bg-gray-100"
-            >
+            <Link to="/categories" className="block px-3 py-2 rounded hover:bg-gray-100">
               Categories
             </Link>
           </nav>
@@ -76,9 +68,24 @@ export default function AdminLayout({
         </div>
       </div>
 
-      {/* Main */}
-      <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
-        {children}
+      {/* 🔹 MAIN CONTENT */}
+      <div className="flex-1 flex flex-col overflow-y-auto bg-gray-50">
+
+        {/* 🔹 MOBILE HEADER */}
+        <div className="md:hidden flex items-center justify-between p-4 bg-white shadow">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="text-xl"
+          >
+            ☰
+          </button>
+          <h1 className="font-bold">CMS</h1>
+        </div>
+
+        {/* 🔹 PAGE CONTENT */}
+        <div className="p-4 md:p-6">
+          {children}
+        </div>
       </div>
     </div>
   )
