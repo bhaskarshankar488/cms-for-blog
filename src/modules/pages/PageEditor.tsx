@@ -407,345 +407,238 @@ export default function PageEditor() {
   // =========================
   // 🔹 UI
   // =========================
-  return (
-    <div className="max-w-4xl mx-auto space-y-6">
+ return (
+  <div className="max-w-4xl mx-auto space-y-6 px-4 sm:px-6">
 
-      {/* TITLE */}
-      <h1 className="text-2xl font-bold">
-        {isEdit
-          ? "Edit Page"
-          : "Create Page"}
-      </h1>
+    {/* TITLE */}
+    <h1 className="text-xl sm:text-2xl font-bold">
+      {isEdit ? "Edit Page" : "Create Page"}
+    </h1>
 
-      {/* PAGE TITLE */}
-      <input
-        name="title"
-        placeholder="Page Title"
-        className="w-full p-2 border rounded"
-        value={form.title}
-        onChange={handleChange}
-      />
+    {/* PAGE TITLE */}
+    <input
+      name="title"
+      placeholder="Page Title"
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.title}
+      onChange={handleChange}
+    />
 
-      {/* SLUG */}
-      <input
-        name="slug"
-        placeholder="Slug"
-        className="w-full p-2 border rounded"
-        value={form.slug}
-        onChange={(e) => {
+    {/* SLUG */}
+    <input
+      name="slug"
+      placeholder="Slug"
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.slug}
+      onChange={(e) => {
+        setSlugTouched(true)
 
-          setSlugTouched(true)
+        const value = e.target.value
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
 
-          const value = e.target.value
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, "")
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-")
+        setForm({ ...form, slug: value })
+      }}
+    />
 
-          setForm({
-            ...form,
-            slug: value,
-          })
-        }}
-      />
+    {/* PAGE DESCRIPTION */}
+    <input
+      name="pagedescription"
+      placeholder="Page Description"
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.pageDescription}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          pageDescription: e.target.value,
+        })
+      }
+    />
 
-      {/* PAGE DESCRIPTION */}
-      <input
-        name="pagedescription"
-        placeholder="Page Description"
-        className="w-full p-2 border rounded"
-        value={form.pageDescription}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            pageDescription:
-              e.target.value,
-          })
-        }
-      />
-
-      {/* CATEGORY */}
-      <select
-        className="w-full p-2 border rounded"
-        value={form.categoryId}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            categoryId:
-              e.target.value,
-          })
-        }
-      >
-        <option value="">
-          Select Category
+    {/* CATEGORY */}
+    <select
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.categoryId}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          categoryId: e.target.value,
+        })
+      }
+    >
+      <option value="">Select Category</option>
+      {categories.map((cat) => (
+        <option key={cat._id} value={cat._id}>
+          {cat.name}
         </option>
+      ))}
+    </select>
 
-        {categories.map((cat) => (
-          <option
-            key={cat._id}
-            value={cat._id}
+    {/* META TITLE */}
+    <input
+      placeholder="Meta Title"
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.meta.title}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          meta: {
+            ...form.meta,
+            title: e.target.value,
+          },
+        })
+      }
+    />
+
+    {/* META DESCRIPTION */}
+    <textarea
+      placeholder="Meta Description"
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={form.meta.description}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          meta: {
+            ...form.meta,
+            description: e.target.value,
+          },
+        })
+      }
+    />
+
+    {/* TOOLS */}
+    <h2 className="text-lg sm:text-xl font-semibold">Tools</h2>
+
+    <input
+      placeholder="Search tools..."
+      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      value={toolSearch}
+      onChange={(e) => {
+        setToolSearch(e.target.value)
+        searchTools(e.target.value)
+      }}
+    />
+
+    {toolResults.length > 0 && (
+      <div className="border rounded max-h-40 overflow-y-auto bg-white">
+        {toolResults.map((tool) => (
+          <div
+            key={tool._id}
+            className="p-2 hover:bg-gray-100 cursor-pointer text-sm sm:text-base"
+            onClick={() => addTool(tool)}
           >
-            {cat.name}
-          </option>
+            {tool.name}
+          </div>
         ))}
-      </select>
-
-      {/* META TITLE */}
-      <input
-        placeholder="Meta Title"
-        className="w-full p-2 border rounded"
-        value={form.meta.title}
-        onChange={(e) =>
-          setForm({
-            ...form,
-
-            meta: {
-              ...form.meta,
-              title:
-                e.target.value,
-            },
-          })
-        }
-      />
-
-      {/* META DESCRIPTION */}
-      <textarea
-        placeholder="Meta Description"
-        className="w-full p-2 border rounded"
-        value={form.meta.description}
-        onChange={(e) =>
-          setForm({
-            ...form,
-
-            meta: {
-              ...form.meta,
-
-              description:
-                e.target.value,
-            },
-          })
-        }
-      />
-
-      {/* ================= TOOLS ================= */}
-      <h2 className="text-xl font-semibold">
-        Tools
-      </h2>
-
-      {/* SEARCH */}
-      <input
-        placeholder="Search tools..."
-        className="w-full p-2 border rounded"
-        value={toolSearch}
-        onChange={(e) => {
-
-          setToolSearch(
-            e.target.value
-          )
-
-          searchTools(
-            e.target.value
-          )
-        }}
-      />
-
-      {/* SEARCH RESULTS */}
-      {toolResults.length > 0 && (
-        <div className="border rounded max-h-40 overflow-y-auto bg-white">
-
-          {toolResults.map((tool) => (
-
-            <div
-              key={tool._id}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() =>
-                addTool(tool)
-              }
-            >
-              {tool.name}
-            </div>
-          ))}
-
-        </div>
-      )}
-
-      {/* SELECTED TOOLS */}
-      <div className="space-y-4">
-
-        {form.tools.map(
-          (
-            tool: any,
-            index: number
-          ) => (
-
-            <div
-              key={index}
-              className="border p-4 rounded"
-            >
-
-              {/* TOOL NAME */}
-              <h3 className="font-semibold text-lg">
-                {tool.name}
-              </h3>
-
-              {/* CUSTOM DESCRIPTION */}
-              <textarea
-                placeholder="Custom Description"
-                className="w-full mt-2 p-2 border rounded"
-                value={
-                  tool.customDescription
-                }
-                onChange={(e) => {
-
-                  const updated = [
-                    ...form.tools,
-                  ]
-
-                  updated[
-                    index
-                  ].customDescription =
-                    e.target.value
-
-                  setForm({
-                    ...form,
-                    tools: updated,
-                  })
-                }}
-              />
-
-              {/* REMOVE */}
-              <button
-                className="text-red-600 mt-2"
-                onClick={() =>
-                  removeTool(index)
-                }
-              >
-                Remove
-              </button>
-
-            </div>
-          )
-        )}
-
       </div>
+    )}
 
-      {/* ================= FAQ ================= */}
-      <h2 className="text-xl font-semibold">
-        FAQ
-      </h2>
+    {/* SELECTED TOOLS */}
+    <div className="space-y-4">
+      {form.tools.map((tool: any, index: number) => (
+        <div key={index} className="border p-3 sm:p-4 rounded">
+          <h3 className="font-semibold text-base sm:text-lg">
+            {tool.name}
+          </h3>
+
+          <textarea
+            placeholder="Custom Description"
+            className="w-full mt-2 p-2 sm:p-3 border rounded text-sm sm:text-base"
+            value={tool.customDescription}
+            onChange={(e) => {
+              const updated = [...form.tools]
+              updated[index].customDescription = e.target.value
+              setForm({ ...form, tools: updated })
+            }}
+          />
+
+          <button
+            className="text-red-600 mt-2 text-sm"
+            onClick={() => removeTool(index)}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+    </div>
+
+    {/* FAQ */}
+    <h2 className="text-lg sm:text-xl font-semibold">FAQ</h2>
+
+    <button
+      onClick={addFaq}
+      className="bg-gray-200 px-4 py-2 rounded text-sm sm:text-base w-full sm:w-auto"
+    >
+      + Add FAQ
+    </button>
+
+    <div className="space-y-4">
+      {form.faq.map((item: any, index: number) => (
+        <div key={index} className="border p-3 sm:p-4 rounded">
+          <input
+            placeholder="Question"
+            className="w-full mb-2 p-2 sm:p-3 border rounded text-sm sm:text-base"
+            value={item.question}
+            onChange={(e) =>
+              updateFaq(index, "question", e.target.value)
+            }
+          />
+
+          <textarea
+            placeholder="Answer"
+            className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+            value={item.answer}
+            onChange={(e) =>
+              updateFaq(index, "answer", e.target.value)
+            }
+          />
+
+          <button
+            className="text-red-600 mt-2 text-sm"
+            onClick={() => removeFaq(index)}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+    </div>
+
+    {/* CONTENT */}
+    <h2 className="text-lg sm:text-xl font-semibold">Content</h2>
+
+    <RichTextEditor
+      value={content}
+      onChange={(val: string) => setContent(val)}
+    />
+
+    {/* ACTION BUTTONS */}
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
 
       <button
-        onClick={addFaq}
-        className="bg-gray-200 px-4 py-2 rounded"
+        onClick={() => handleSubmit("draft")}
+        className="bg-gray-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto"
       >
-        + Add FAQ
+        Save Draft
       </button>
 
-      <div className="space-y-4">
+      <button
+        onClick={() => handleSubmit("draft")}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto"
+      >
+        Save
+      </button>
 
-        {form.faq.map(
-          (
-            item: any,
-            index: number
-          ) => (
-
-            <div
-              key={index}
-              className="border p-4 rounded"
-            >
-
-              <input
-                placeholder="Question"
-                className="w-full mb-2 p-2 border rounded"
-                value={
-                  item.question
-                }
-                onChange={(e) =>
-                  updateFaq(
-                    index,
-                    "question",
-                    e.target.value
-                  )
-                }
-              />
-
-              <textarea
-                placeholder="Answer"
-                className="w-full p-2 border rounded"
-                value={item.answer}
-                onChange={(e) =>
-                  updateFaq(
-                    index,
-                    "answer",
-                    e.target.value
-                  )
-                }
-              />
-
-              <button
-                className="text-red-600 mt-2"
-                onClick={() =>
-                  removeFaq(index)
-                }
-              >
-                Remove
-              </button>
-
-            </div>
-          )
-        )}
-
-      </div>
-
-      {/* ================= CONTENT ================= */}
-      <h2 className="text-xl font-semibold">
-        Content
-      </h2>
-
-      <RichTextEditor
-        value={content}
-        onChange={(val: string) =>
-          setContent(val)
-        }
-      />
-
-      {/* ================= SAVE ================= */}
-      <div className="flex gap-4 mt-6">
-
-        {/* DRAFT */}
-        <button
-          onClick={() =>
-            handleSubmit("draft")
-          }
-          className="bg-gray-600 text-white px-4 py-2 rounded-lg"
-        >
-          Save Draft
-        </button>
-
-        {/* SAVE */}
-        <button
-          onClick={() =>
-            handleSubmit("draft")
-          }
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-        >
-          Save
-        </button>
-
-        {/* PUBLISH */}
-        <button
-          onClick={() =>
-            handleSubmit(
-              "published"
-            )
-          }
-          className="bg-green-600 text-white px-4 py-2 rounded-lg"
-        >
-          Publish
-        </button>
-
-      </div>
+      <button
+        onClick={() => handleSubmit("published")}
+        className="bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto"
+      >
+        Publish
+      </button>
 
     </div>
-  )
+
+  </div>
+)
 }

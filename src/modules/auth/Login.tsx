@@ -30,33 +30,37 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-6 rounded-xl shadow w-80"
-      >
-        <h2 className="text-xl font-bold mb-4">Admin Login</h2>
+  <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    
+    <form
+      onSubmit={handleLogin}
+      className="bg-white p-5 sm:p-6 rounded-xl shadow w-full max-w-sm"
+    >
+      <h2 className="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">
+        Admin Login
+      </h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-3 p-2 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <input
+        type="email"
+        placeholder="Email"
+        className="w-full mb-3 p-2 border rounded text-sm sm:text-base"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-4 p-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <input
+        type="password"
+        placeholder="Password"
+        className="w-full mb-4 p-2 border rounded text-sm sm:text-base"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-        <button className="w-full bg-black text-white p-2 rounded">
-          Login
-        </button>
-      </form>
-    </div>
-  )
+      <button className="w-full bg-black text-white p-2 rounded text-sm sm:text-base">
+        Login
+      </button>
+    </form>
+
+  </div>
+)
 }
