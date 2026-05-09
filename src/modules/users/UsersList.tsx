@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 
 export default function UsersList() {
   const [users, setUsers] = useState<any[]>([])
-  const [search, setSearch] = useState("")
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
   const [message, setMessage] = useState("")
@@ -16,7 +15,7 @@ export default function UsersList() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`/users?search=${search}`)
+      const res = await axios.get(`/users`)
       setUsers(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -33,7 +32,7 @@ export default function UsersList() {
     }, 400)
 
     return () => clearTimeout(delay)
-  }, [search])
+  }, [])
 
   const confirmDelete = async () => {
     if (!deleteId) return
@@ -76,7 +75,7 @@ export default function UsersList() {
           {message}
         </div>
       )}
-      
+
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">
