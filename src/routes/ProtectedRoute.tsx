@@ -1,25 +1,10 @@
-import { useEffect, useState } from "react"
-import { Navigate } from "react-router-dom"
-import { getMe } from "../api/auth.api"
+import { Navigate, Outlet } from "react-router-dom"
 
-export default function ProtectedRoute({ children }: any) {
-  const [loading, setLoading] = useState(true)
-  const [isAuth, setIsAuth] = useState(false)
+export default function ProtectedRoute() {
 
-  useEffect(() => {
-    getMe()
-      .then(() => setIsAuth(true))
-      .catch(() => setIsAuth(false))
-      .finally(() => setLoading(false))
-  }, [])
+  const isAuthenticated = true
 
-  if (loading) {
-    return <p>Checking authentication...</p>
-  }
-
-  if (!isAuth) {
-    return <Navigate to="/login" />
-  }
-
-  return children
+  return isAuthenticated
+    ? <Outlet />
+    : <Navigate to="/login" replace />
 }
