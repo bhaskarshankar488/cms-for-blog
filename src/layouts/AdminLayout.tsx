@@ -3,6 +3,10 @@ import { useState } from "react"
 import axios from "../api/axios"
 
 export default function AdminLayout() {
+
+    const user = JSON.parse(localStorage.getItem("user") || "{}")
+
+
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -78,6 +82,19 @@ export default function AdminLayout() {
 
                     </nav>
 
+                </div>
+                <div className="border-t pt-4 mt-4">
+                    <p className="font-semibold">
+                        {user.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                        {user.email}
+                    </p>
+
+                    <p className="text-xs bg-blue-100 text-blue-700 inline-block px-2 py-1 rounded mt-2">
+                        {user.role}
+                    </p>
                 </div>
 
                 <button

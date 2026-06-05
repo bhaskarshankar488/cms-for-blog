@@ -10,18 +10,51 @@ import {
   GlobeLock,
   X,
 } from "lucide-react"
+import {
+  Calendar,
+  Clock3,
+  User,
+} from "lucide-react"
 
 type Page = {
   _id: string
   title: string
   slug: string
+
   categoryId?: {
     slug: string
   }
+
+  createdBy?: {
+    _id: string
+    name: string
+  }
+
+  updatedBy?: {
+    _id: string
+    name: string
+  }
+
+  createdAt: string
+  updatedAt: string
+
   status: "draft" | "published" | "unpublished"
 }
 
 export default function PagesList() {
+
+
+  const formatDate = (date: string) => {
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date(date))
+}
+  
   const [pages, setPages] = useState<Page[]>([])
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState("")
@@ -43,8 +76,8 @@ export default function PagesList() {
     try {
       setLoading(true)
       const res = await axios.get(
-  `/pages?search=${search}`
-)
+        `/pages?search=${search}`
+      )
       setPages(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -59,13 +92,13 @@ export default function PagesList() {
 
   useEffect(() => {
 
-  const delay = setTimeout(() => {
-    fetchPages()
-  }, 400)
+    const delay = setTimeout(() => {
+      fetchPages()
+    }, 400)
 
-  return () => clearTimeout(delay)
+    return () => clearTimeout(delay)
 
-}, [search])
+  }, [search])
 
   // STATUS TOGGLE
   const toggleStatus = async (page: Page) => {
@@ -128,26 +161,26 @@ export default function PagesList() {
       {/* LOADING */}
 
       {/* SEARCH */}
-<div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
 
-  <input
-    type="text"
-    placeholder="Search pages..."
-    value={search}
-    onChange={(e) =>
-      setSearch(e.target.value)
-    }
-    className="flex-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-black"
-  />
+        <input
+          type="text"
+          placeholder="Search pages..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+          className="flex-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-black"
+        />
 
-  <button
-    onClick={fetchPages}
-    className="bg-black hover:bg-gray-800 text-white px-5 py-3 rounded-xl w-full sm:w-auto text-sm font-medium"
-  >
-    Search
-  </button>
+        <button
+          onClick={fetchPages}
+          className="bg-black hover:bg-gray-800 text-white px-5 py-3 rounded-xl w-full sm:w-auto text-sm font-medium"
+        >
+          Search
+        </button>
 
-</div>
+      </div>
       {loading ? (
         <div className="bg-white rounded-2xl p-8 shadow-sm border text-center">
           <p className="text-gray-500">Loading pages...</p>
@@ -172,6 +205,33 @@ export default function PagesList() {
                     <td className="p-5">
                       <h2 className="font-semibold text-gray-900">{page.title}</h2>
                       <p className="text-sm text-gray-500 mt-1">Page Content</p>
+                      <div className="mt-3 space-y-2">
+
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <Calendar size={14} />
+                          <span>
+                            Created {formatDate(page.createdAt)}
+                          </span>
+                          <span className="text-gray-400">•</span>
+                          <User size={14} />
+                          <span>
+                            {page.createdBy?.name || "System"}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-xs text-blue-600">
+                          <Clock3 size={14} />
+                          <span>
+                            Updated {formatDate(page.updatedAt)}
+                          </span>
+                          <span className="text-gray-400">•</span>
+                          <User size={14} />
+                          <span>
+                            {page.updatedBy?.name || "System"}
+                          </span>
+                        </div>
+
+                      </div>
                     </td>
 
                     <td className="p-5">
@@ -206,11 +266,10 @@ export default function PagesList() {
                         <button
                           onClick={() => toggleStatus(page)}
                           className={`px-4 h-10 rounded-xl text-sm font-medium flex items-center gap-2
-                          ${
-                            page.status === "published"
+                          ${page.status === "published"
                               ? "bg-yellow-100 text-yellow-700"
                               : "bg-green-100 text-green-700"
-                          }`}
+                            }`}
                         >
                           {page.status === "published" ? (
                             <>
@@ -291,11 +350,10 @@ export default function PagesList() {
                   <button
                     onClick={() => toggleStatus(page)}
                     className={`flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium
-                    ${
-                      page.status === "published"
+                    ${page.status === "published"
                         ? "bg-yellow-50 text-yellow-700"
                         : "bg-green-50 text-green-700"
-                    }`}
+                      }`}
                   >
                     {page.status === "published" ? (
                       <>

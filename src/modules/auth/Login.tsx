@@ -11,56 +11,58 @@ export default function Login() {
     e.preventDefault()
 
     try {
-  const res = await axios.post("/auth/login", {
-    email,
-    password,
-  })
+      const res = await axios.post("/auth/login", {
+        email,
+        password,
+      })
 
-  console.log("LOGIN SUCCESS:", res.data)
+      if (res.data.success) {
 
-  if (res.data.success) {
-    navigate("/")
-  }
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.data)
+        )
 
-} catch (err: any) {
-  console.error("LOGIN ERROR:", err.response?.data || err)
+        navigate("/")
+      }
 
-  alert(err.response?.data?.message || "Login failed")
-}
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Login failed")
+    }
   }
 
   return (
-  <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-    
-    <form
-      onSubmit={handleLogin}
-      className="bg-white p-5 sm:p-6 rounded-xl shadow w-full max-w-sm"
-    >
-      <h2 className="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">
-        Admin Login
-      </h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
 
-      <input
-        type="email"
-        placeholder="Email"
-        className="w-full mb-3 p-2 border rounded text-sm sm:text-base"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-5 sm:p-6 rounded-xl shadow w-full max-w-sm"
+      >
+        <h2 className="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">
+          Admin Login
+        </h2>
 
-      <input
-        type="password"
-        placeholder="Password"
-        className="w-full mb-4 p-2 border rounded text-sm sm:text-base"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full mb-3 p-2 border rounded text-sm sm:text-base"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <button className="w-full bg-black text-white p-2 rounded text-sm sm:text-base">
-        Login
-      </button>
-    </form>
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full mb-4 p-2 border rounded text-sm sm:text-base"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-  </div>
-)
+        <button className="w-full bg-black text-white p-2 rounded text-sm sm:text-base">
+          Login
+        </button>
+      </form>
+
+    </div>
+  )
 }
