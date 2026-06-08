@@ -8,6 +8,11 @@ export default function CategoryForm({
   const [form, setForm] = useState({
     name: "",
     slug: "",
+    title: "",
+    description: "",
+    seoTitle: "",
+    seoDescription: "",
+    seoKeywords: "",
   })
 
   // ✅ TRACK MANUAL SLUG EDIT
@@ -18,18 +23,18 @@ export default function CategoryForm({
   // 🔹 LOAD EDIT DATA
   // =========================
   useEffect(() => {
-
     if (initialData) {
-
       setForm({
-        name:
-          initialData.name || "",
-
-        slug:
-          initialData.slug || "",
+        name: initialData.name || "",
+        slug: initialData.slug || "",
+        title: initialData.title || "",
+        description: initialData.description || "",
+        seoTitle: initialData.seoTitle || "",
+        seoDescription: initialData.seoDescription || "",
+        seoKeywords:
+          initialData.seoKeywords?.join(", ") || "",
       })
     }
-
   }, [initialData])
 
   // =========================
@@ -85,49 +90,99 @@ export default function CategoryForm({
   }
 
   return (
-  <div className="space-y-4 max-w-lg mx-auto px-4">
+    <div className="space-y-4 max-w-lg mx-auto px-4">
 
-    {/* CATEGORY NAME */}
-    <input
-      name="name"
-      placeholder="Category Name"
-      value={form.name}
-      onChange={handleChange}
-      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-    />
+      {/* CATEGORY NAME */}
+      <input
+        name="name"
+        placeholder="Category Name"
+        value={form.name}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
 
-    {/* SLUG */}
-    <input
-      name="slug"
-      placeholder="Slug"
-      value={form.slug}
-      onChange={(e) => {
+      {/* SLUG */}
+      <input
+        name="slug"
+        placeholder="Slug"
+        value={form.slug}
+        onChange={(e) => {
 
-        setSlugTouched(true)
+          setSlugTouched(true)
 
-        const value = e.target.value
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9\s-]/g, "")
-          .replace(/\s+/g, "-")
-          .replace(/-+/g, "-")
+          const value = e.target.value
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
 
-        setForm({
-          ...form,
-          slug: value,
-        })
-      }}
-      className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-    />
+          setForm({
+            ...form,
+            slug: value,
+          })
+        }}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
 
-    {/* SAVE */}
-    <button
-      onClick={() => onSubmit(form)}
-      className="w-full sm:w-auto bg-black text-white px-6 py-2 sm:py-3 rounded text-sm sm:text-base"
-    >
-      Save Category
-    </button>
+      <input
+        name="title"
+        placeholder="Category Title"
+        value={form.title}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
 
-  </div>
-)
+      <textarea
+        name="description"
+        placeholder="Category Description"
+        value={form.description}
+        onChange={handleChange}
+        rows={3}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
+
+      <input
+        name="seoTitle"
+        placeholder="SEO Title"
+        value={form.seoTitle}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
+
+      <textarea
+        name="seoDescription"
+        placeholder="SEO Description"
+        value={form.seoDescription}
+        onChange={handleChange}
+        rows={3}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
+
+      <input
+        name="seoKeywords"
+        placeholder="SEO Keywords (comma separated)"
+        value={form.seoKeywords}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
+      />
+
+      {/* SAVE */}
+      <button
+        onClick={() =>
+          onSubmit({
+            ...form,
+            seoKeywords: form.seoKeywords
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean),
+          })
+        }
+        className="w-full sm:w-auto bg-black text-white px-6 py-2 sm:py-3 rounded text-sm sm:text-base"
+      >
+        Save Category
+      </button>
+
+    </div>
+  )
 }

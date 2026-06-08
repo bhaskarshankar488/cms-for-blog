@@ -1,16 +1,22 @@
 import { Route } from "react-router-dom"
-
 import PagesList from "../modules/pages/PagesList"
-import PageEditor from "../modules/pages/PageEditor"
+import PageCreate from "../modules/pages/PageCreate";
+import PageEdit from "../modules/pages/PageEdit";
 import PreviewPage from "../modules/pages/PreviewPage"
 
 export const pagesRoutes = (
   <>
     <Route path="/pages" element={<PagesList />} />
 
-    <Route path="/pages/new" element={<PageEditor />} />
+    <Route
+      path="/pages/create"
+      element={<PageCreate />}
+    />
 
-    <Route path="/pages/edit/:id" element={<PageEditor />} />
+    <Route
+      path="/pages/edit/:id"
+      element={<PageEdit />}
+    />
 
     <Route path="/preview/:slug" element={<PreviewPage />} />
   </>

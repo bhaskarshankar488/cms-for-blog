@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react"
+import useImageUpload from "../../hooks/useImageUpload";
+import ImageUpload from "../../components/common/ImageUpload";
 
 const AVAILABLE_TAGS = [
   "Free",
@@ -56,12 +58,13 @@ export default function ToolForm({
     reviewCount: "",
   })
 
-  // ✅ file state
-  const [imageFile, setImageFile] =
-    useState<File | null>(null)
-
-  // ✅ preview state
-  const [preview, setPreview] = useState("")
+  const {
+    file: imageFile,
+    preview,
+    setPreview,
+    handleChange: handleImageChange,
+    remove: handleRemoveImage,
+  } = useImageUpload();
 
   // ✅ TRACK MANUAL SLUG EDIT
   const [slugTouched, setSlugTouched] =
@@ -150,41 +153,6 @@ export default function ToolForm({
     slugTouched,
     initialData,
   ])
-
-  // ✅ image upload
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-
-    const file = e.target.files?.[0]
-
-    if (!file) return
-
-    setImageFile(file)
-
-    // ✅ preview
-    const imageUrl =
-      URL.createObjectURL(file)
-
-    setPreview(imageUrl)
-  }
-
-  // ✅ remove image
-  const handleRemoveImage = () => {
-
-    setImageFile(null)
-
-    setPreview("")
-
-    setForm({
-      ...form,
-
-      image: {
-        url: "",
-        public_id: "",
-      },
-    })
-  }
 
   // ✅ tag toggle
   const toggleTag = (tag: string) => {
@@ -390,42 +358,12 @@ export default function ToolForm({
       />
 
       {/* IMAGE SECTION */}
-      <div className="space-y-3">
-
-        <label className="font-semibold">
-          Tool Image
-        </label>
-
-        {/* upload */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full p-2 border rounded"
-        />
-
-        {/* preview */}
-        {preview && (
-          <div className="relative w-40">
-
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-40 h-40 object-cover rounded border"
-            />
-
-            <button
-              type="button"
-              onClick={handleRemoveImage}
-              className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded"
-            >
-              Remove
-            </button>
-
-          </div>
-        )}
-
-      </div>
+      <ImageUpload
+        label="Tool Image"
+        preview={preview}
+        onChange={handleImageChange}
+        onRemove={handleRemoveImage}
+      />
 
       {/* BRAND */}
       <input
@@ -523,16 +461,14 @@ export default function ToolForm({
                 className={`
                   px-4 py-2 rounded border text-sm transition
 
-                  ${
-                    selected
-                      ? "bg-black text-white border-black"
-                      : "bg-white text-black border-gray-300"
+                  ${selected
+                    ? "bg-black text-white border-black"
+                    : "bg-white text-black border-gray-300"
                   }
 
-                  ${
-                    disabled
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-gray-100"
+                  ${disabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-100"
                   }
                 `}
               >

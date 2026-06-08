@@ -151,7 +151,7 @@ export default function PagesList() {
         </div>
 
         <button
-          onClick={() => navigate("/pages/new")}
+          onClick={() => navigate("/pages/create")}
           className="bg-black hover:bg-gray-800 text-white px-5 py-3 rounded-xl w-full sm:w-auto text-sm font-medium"
         >
           + Create Page
