@@ -5,8 +5,10 @@ import RichTextEditor from "../../components/editor/RichTextEditor"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 
-import BasicInfoSection from
-  "../../components/page/BasicInfoSection"
+import BasicInfoSection from "../../components/page/BasicInfoSection"
+import CategorySection from "../../components/page/CategorySection"
+import SeoSection from "../../components/page/SeoSection"
+
 interface PageFormProps {
   mode?: "create" | "edit";
 }
@@ -598,54 +600,16 @@ export default function PageForm({
       </div>
 
       {/* CATEGORY */}
-      <select
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.categoryId}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            categoryId: e.target.value,
-          })
-        }
-      >
-        <option value="">Select Category</option>
-        {categories.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {cat.name}
-          </option>
-        ))}
-      </select>
-
-      {/* META TITLE */}
-      <input
-        placeholder="Meta Title"
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.meta.title}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            meta: {
-              ...form.meta,
-              title: e.target.value,
-            },
-          })
-        }
+      <CategorySection
+        form={form}
+        setForm={setForm}
+        categories={categories}
       />
 
-      {/* META DESCRIPTION */}
-      <textarea
-        placeholder="Meta Description"
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.meta.description}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            meta: {
-              ...form.meta,
-              description: e.target.value,
-            },
-          })
-        }
+      {/* META TITLE */}
+      <SeoSection
+        form={form}
+        setForm={setForm}
       />
 
       {/* TOOLS */}
