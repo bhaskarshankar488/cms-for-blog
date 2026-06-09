@@ -5,6 +5,8 @@ import RichTextEditor from "../../components/editor/RichTextEditor"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 
+import BasicInfoSection from
+  "../../components/page/BasicInfoSection"
 interface PageFormProps {
   mode?: "create" | "edit";
 }
@@ -553,60 +555,11 @@ export default function PageForm({
         {isEdit ? "Edit Page" : "Create Page"}
       </h1>
 
-      {/* PAGE TITLE */}
-      <input
-        name="title"
-        placeholder="Page Title"
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.title}
-        onChange={handleChange}
+      <BasicInfoSection
+        form={form}
+        setForm={setForm}
+        setSlugTouched={setSlugTouched}
       />
-
-      {/* SLUG */}
-      <input
-        name="slug"
-        placeholder="Slug"
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.slug}
-        onChange={(e) => {
-          setSlugTouched(true)
-
-          const value = e.target.value
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, "")
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-")
-
-          setForm({ ...form, slug: value })
-        }}
-      />
-
-      {/* PAGE DESCRIPTION */}
-      <input
-        name="pagedescription"
-        placeholder="Page Description"
-        className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base"
-        value={form.pageDescription}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            pageDescription: e.target.value,
-          })
-        }
-      />
-      <textarea
-        placeholder="Category Description"
-        className="w-full p-3 border rounded"
-        value={form.categoryDescription}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            categoryDescription:
-              e.target.value,
-          })
-        }
-      />
-
       <div className="space-y-3">
 
         <label className="font-semibold">
