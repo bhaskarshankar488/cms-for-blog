@@ -1,13 +1,14 @@
 import { useState } from "react"
 import axios from "../../api/axios"
 import { useNavigate } from "react-router-dom"
-import RichTextEditor from "../../components/editor/RichTextEditor"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 
 import BasicInfoSection from "../../components/page/BasicInfoSection"
 import CategorySection from "../../components/page/CategorySection"
 import SeoSection from "../../components/page/SeoSection"
+import ImageSection from "../../components/page/ImageSection"
+import ContentSection from "../../components/page/ContentSection"
 
 interface PageFormProps {
   mode?: "create" | "edit";
@@ -562,42 +563,11 @@ export default function PageForm({
         setForm={setForm}
         setSlugTouched={setSlugTouched}
       />
-      <div className="space-y-3">
-
-        <label className="font-semibold">
-          Category Image
-        </label>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleCatImageChange}
-          className="w-full p-2 border rounded"
-        />
-
-        {catImagePreview && (
-
-          <div className="relative w-40">
-
-            <img
-              src={catImagePreview}
-              alt="Category Preview"
-              className="w-40 h-40 object-cover border rounded"
-            />
-
-            <button
-              type="button"
-              onClick={removeCatImage}
-              className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded"
-            >
-              Remove
-            </button>
-
-          </div>
-
-        )}
-
-      </div>
+      <ImageSection
+        catImagePreview={catImagePreview}
+        handleCatImageChange={handleCatImageChange}
+        removeCatImage={removeCatImage}
+      />
 
       {/* CATEGORY */}
       <CategorySection
@@ -710,11 +680,9 @@ export default function PageForm({
       </div>
 
       {/* CONTENT */}
-      <h2 className="text-lg sm:text-xl font-semibold">Content</h2>
-
-      <RichTextEditor
-        value={content}
-        onChange={(val: string) => setContent(val)}
+      <ContentSection
+        content={content}
+        setContent={setContent}
       />
 
       {/* ACTION BUTTONS */}
