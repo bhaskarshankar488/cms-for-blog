@@ -1,4 +1,4 @@
-import RichTextEditor from "../editor/RichTextEditor"
+import RichTextEditor from "../../../components/editor/RichTextEditor"
 
 interface Props {
   content: string

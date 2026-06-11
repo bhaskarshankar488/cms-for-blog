@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Toaster } from "react-hot-toast";
 
 import { usersRoutes } from "../routes/users.routes"
 
@@ -17,6 +18,7 @@ import { categoriesRoutes } from "../routes/categories.routes"
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
 
       <Routes>
 
@@ -42,7 +44,7 @@ function App() {
 
             {categoriesRoutes}
 
-            { usersRoutes }
+            {usersRoutes}
 
           </Route>
 

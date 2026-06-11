@@ -1,3 +1,5 @@
+import { generateSlug, } from "../../../shared/utils/slug";
+
 interface Props {
   form: any
   setForm: any
@@ -37,11 +39,9 @@ export default function BasicInfoSection({
           setSlugTouched(true)
 
           const value =
-            e.target.value
-              .toLowerCase()
-              .replace(/[^a-z0-9\s-]/g, "")
-              .replace(/\s+/g, "-")
-              .replace(/-+/g, "-")
+            generateSlug(
+              e.target.value
+            );
 
           setForm({
             ...form,

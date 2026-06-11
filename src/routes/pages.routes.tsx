@@ -1,8 +1,8 @@
 import { Route } from "react-router-dom"
-import PagesList from "../modules/pages/PagesList"
-import PageCreate from "../modules/pages/PageCreate";
-import PageEdit from "../modules/pages/PageEdit";
-import PreviewPage from "../modules/pages/PreviewPage"
+import PagesList from "../features/page/PagesList"
+import PageCreate from "../features/page/PageCreate";
+import PageEdit from "../features/page/PageEdit";
+import PreviewPage from "../features/page/PreviewPage"
 
 export const pagesRoutes = (
   <>

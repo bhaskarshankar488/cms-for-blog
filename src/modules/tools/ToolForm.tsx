@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import useImageUpload from "../../hooks/useImageUpload";
+import useImageUpload from "../../features/page/hooks/useImageUpload";
 import ImageUpload from "../../components/common/ImageUpload";
 
 const AVAILABLE_TAGS = [
