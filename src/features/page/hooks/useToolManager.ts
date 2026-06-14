@@ -1,5 +1,3 @@
-import axios from "../../../api/axios";
-
 import {searchToolsApi} from "../services/tool.service"
 
 export function useToolManager(

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "../../../api/axios";
 
 import {getPage} from "../services/page.service"
 import {getCategories} from "../services/category.service"
