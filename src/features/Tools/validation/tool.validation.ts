@@ -4,11 +4,11 @@ export function validateToolForm(
   form: ToolFormData
 ): string | null {
   
-  if (!form.title.trim()) {
+  if (!form.name.trim()) {
     return "Title is required";
   }
-    if (!form.description.trim()) {
-    return "Website URL is required";
+    if (!form.globalDescription.trim()) {
+    return " globalDescription is required";
   }
 
   if (!form.brand.trim()) {

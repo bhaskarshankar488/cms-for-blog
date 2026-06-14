@@ -1,7 +1,11 @@
 export interface ToolFormData {
-  title: string;
+  name: string;
   slug: string;
-  description: string;
+  globalDescription: string;
+
+  pricingLabel: string;
+  whatIsIt: string;
+
   brand: string;
   link: string;
   categoryId: string;

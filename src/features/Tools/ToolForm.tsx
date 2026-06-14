@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { validateToolForm } from "./hooks/tool.validation"
+import { toolSchema } from "./validation/tool.schema";
+
+
 import type { ToolFormData } from "./types/tool.types";
 
 import { buildToolFormData } from "./utils/buildToolFormData"
@@ -10,6 +12,8 @@ import RatingSection from "./components/RatingSection";
 import TagsSection from "./components/TagsSection";
 import CategorySection from "../../shared/Component/CategorySection";
 import ImageUpload from "../../shared/Component/ImageUpload";
+
+import {IconPicker} from "../../shared/components/IconPicker";
 
 import { useCategories } from "../../shared/hook/useCategories";
 import { useToolForm } from "./hooks/useToolForm"
@@ -44,13 +48,16 @@ export default function ToolForm({
   const { categories } = useCategories();
 
   const handleSubmit = async () => {
-  const error =
-    validateToolForm(form);
 
-  if (error) {
-    alert(error);
-    return;
-  }
+const result =
+  toolSchema.safeParse(form);
+
+if (!result.success) {
+  alert(
+    result.error.issues[0].message
+  );
+  return;
+}
 
   try {
     setLoading(true);
@@ -62,6 +69,13 @@ export default function ToolForm({
       );
 
     await onSubmit(formData);
+
+      alert(
+      initialData
+        ? "Tool updated successfully!"
+        : "Tool created successfully!"
+    );
+    
 
   } catch (error) {
     console.error(error);

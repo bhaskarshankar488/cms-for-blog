@@ -4,7 +4,7 @@ export function validateToolForm(
   form: ToolFormData
 ): string | null {
   
-  if (!form.title.trim()) {
+  if (!form.name.trim()) {
     return "Title is required";
   }
   if (!form.description.trim()) {

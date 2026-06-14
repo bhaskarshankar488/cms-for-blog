@@ -3,9 +3,12 @@
 import type { ToolFormData} from "./tool.types";
 
 export const DEFAULT_TOOL_FORM: ToolFormData = {
-  title: "",
+  name: "",
   slug: "",
-  description: "",
+  globalDescription: "",
+
+  pricingLabel: "",
+  whatIsIt:"",
 
   brand: "",
   link: "",

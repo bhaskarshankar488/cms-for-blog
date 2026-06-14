@@ -1,0 +1,54 @@
+[
+  {
+    "icon": "mdi:code-tags",
+    "label": "Code"
+  },
+  {
+    "icon": "mdi:robot",
+    "label": "AI Robot"
+  },
+  {
+    "icon": "mdi:pencil",
+    "label": "Writing"
+  },
+  {
+    "icon": "mdi:file-document",
+    "label": "Document"
+  },
+  {
+    "icon": "mdi:calendar",
+    "label": "Calendar"
+  },
+  {
+    "icon": "mdi:account-group",
+    "label": "Users"
+  },
+  {
+    "icon": "mdi:star",
+    "label": "Star"
+  },
+  {
+    "icon": "mdi:video",
+    "label": "Video"
+  },
+  {
+    "icon": "mdi:chart-line",
+    "label": "Analytics"
+  },
+  {
+    "icon": "mdi:shield-check",
+    "label": "Security"
+  },
+  {
+    "icon": "mdi:microphone",
+    "label": "Voice"
+  },
+  {
+    "icon": "material-symbols:edit-document-outline",
+    "label": "edit"
+  },
+   {
+    "icon": "material-symbols:code-blocks-outline",
+    "label": "pro coding"
+  }
+]

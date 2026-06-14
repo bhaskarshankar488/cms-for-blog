@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { generateSlug } from "../../../shared/utils/slug";
 import type { ToolFormData } from "../types/tool.types";
+import {PRICING_OPTIONS,} from "../constants/pricing";
 
 interface Props {
   form: ToolFormData;
@@ -19,19 +20,19 @@ export default function BasicInfoSection({
 
   const [slugTouched, setSlugTouched] =
     useState(false);
-  const handleTitleChange = (
+  const handlenameChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const title = e.target.value;
+    const name = e.target.value;
 
     setForm((prev) => ({
       ...prev,
-      title,
+      name,
 
       ...(isEditMode || slugTouched
         ? {}
         : {
-          slug: generateSlug(title),
+          slug: generateSlug(name),
         }),
     }));
   };
@@ -49,12 +50,12 @@ export default function BasicInfoSection({
     }));
   };
 
-  const handleDescriptionChange = (
+  const handleglobalDescriptionChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setForm((prev) => ({
       ...prev,
-      description: e.target.value,
+      globalDescription: e.target.value,
     }));
   };
 
@@ -76,13 +77,31 @@ export default function BasicInfoSection({
     }));
   };
 
+  const handlePricingChange = (
+  e: React.ChangeEvent<HTMLSelectElement>
+) => {
+  setForm((prev) => ({
+    ...prev,
+    pricingLabel: e.target.value,
+  }));
+};
+
+const handleWhatIsItChange = (
+  e: React.ChangeEvent<HTMLTextAreaElement>
+) => {
+  setForm((prev) => ({
+    ...prev,
+    whatIsIt: e.target.value,
+  }));
+};
+
   return (
     <div className="space-y-4">
       <input
         placeholder="Tool Title"
         className="w-full p-3 border rounded"
-        value={form.title}
-        onChange={handleTitleChange}
+        value={form.name}
+        onChange={handlenameChange}
       />
 
       <input
@@ -95,8 +114,8 @@ export default function BasicInfoSection({
       <input
         placeholder="Tool Description"
         className="w-full p-3 border rounded"
-        value={form.description}
-        onChange={handleDescriptionChange}
+        value={form.globalDescription}
+        onChange={handleglobalDescriptionChange}
       />
 
       <input
@@ -113,6 +132,33 @@ export default function BasicInfoSection({
         value={form.link}
         onChange={handleLinkChange}
       />
+
+      <select
+  className="w-full p-3 border rounded"
+  value={form.pricingLabel}
+  onChange={handlePricingChange}
+>
+  <option value="">
+    Select Pricing Model
+  </option>
+
+  {PRICING_OPTIONS.map((option) => (
+    <option
+      key={option}
+      value={option}
+    >
+      {option}
+    </option>
+  ))}
+</select>
+
+<textarea
+  placeholder="What is this tool?"
+  className="w-full p-3 border rounded"
+  rows={5}
+  value={form.whatIsIt}
+  onChange={handleWhatIsItChange}
+/>
     </div>
   );
 }

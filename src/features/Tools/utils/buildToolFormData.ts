@@ -10,7 +10,7 @@ export function buildToolFormData(
 
   formData.append(
     "name",
-    form.title
+    form.name
   );
 
   formData.append(
@@ -20,7 +20,17 @@ export function buildToolFormData(
 
   formData.append(
     "globalDescription",
-    form.description
+    form.globalDescription
+  );
+
+    formData.append(
+    "pricingLabel",
+    form.pricingLabel
+  );
+
+   formData.append(
+    "whatIsIt",
+    form.whatIsIt
   );
 
   formData.append(
