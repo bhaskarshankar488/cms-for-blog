@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toolSchema } from "./validation/tool.schema";
 
 
-import type { ToolFormData, ToolResponse } from "./types/tool.types";
+import type {ToolResponse } from "./types/tool.types";
 
 import { buildToolFormData } from "./utils/buildToolFormData"
 
