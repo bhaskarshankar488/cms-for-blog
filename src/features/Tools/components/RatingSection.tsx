@@ -1,4 +1,4 @@
-import type { ToolFormData } from "../../../shared/types/tool.types";
+import type { ToolFormData } from "../types/tool.types";
 
 interface Props {
   form: ToolFormData;

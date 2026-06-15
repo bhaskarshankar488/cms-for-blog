@@ -44,9 +44,12 @@ export default function EditTool() {
   }
 
   return (
-    <ToolForm
-      initialData={tool}
-      onSubmit={handleUpdate}
-    />
+ <ToolForm
+  initialData={tool}
+  toolImageUrl={tool?.images?.tool?.url}
+  heroImageUrl={tool?.images?.hero?.url}
+  faqImageUrl={tool?.images?.faq?.url}
+  onSubmit={handleUpdate}
+/>
   );
 }

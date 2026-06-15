@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 
-import { getTool }
-from "../service/tool.service";
+import { getTool }from "../service/tool.service";
 
-import type { ToolFormData } from "../types/tool.types";
+import type {ToolResponse } from "../types/tool.types";
 
 export function useTool(
   id?: string
 ) {
 
- const [tool, setTool] =
-  useState<ToolFormData | undefined>();
+const [tool, setTool] =
+  useState<ToolResponse>();
 
   const [loading, setLoading] =
     useState(true);

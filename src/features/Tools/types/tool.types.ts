@@ -16,3 +16,23 @@ export interface ToolFormData {
 
   tags: string[];
 }
+
+export interface ToolImage {
+  url: string;
+  public_id: string;
+}
+
+export interface ToolResponse
+  extends ToolFormData {
+
+  _id: string;
+
+  images: {
+    tool: ToolImage;
+    hero: ToolImage;
+    faq: ToolImage;
+  };
+
+  createdAt: string;
+  updatedAt: string;
+}

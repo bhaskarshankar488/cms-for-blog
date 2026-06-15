@@ -9,14 +9,22 @@ export function useToolForm() {
       DEFAULT_TOOL_FORM
     );
 
-  const [logo, setLogo] =
-    useState<File | null>(null);
+  const [toolImage, setToolImage] = useState<File | null>(null);
+  const [heroImage, setHeroImage] = useState<File | null>(null);
+  const [faqImage, setFaqImage] = useState<File | null>(null);
 
+    
   return {
-    form,
-    setForm,
+     form,
+  setForm,
 
-    logo,
-    setLogo,
+  toolImage,
+  setToolImage,
+
+  heroImage,
+  setHeroImage,
+
+  faqImage,
+  setFaqImage,
   };
 }

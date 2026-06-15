@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toolSchema } from "./validation/tool.schema";
 
 
-import type { ToolFormData } from "./types/tool.types";
+import type { ToolFormData, ToolResponse } from "./types/tool.types";
 
 import { buildToolFormData } from "./utils/buildToolFormData"
 
@@ -13,28 +13,46 @@ import TagsSection from "./components/TagsSection";
 import CategorySection from "../../shared/Component/CategorySection";
 import ImageUpload from "../../shared/Component/ImageUpload";
 
-import {IconPicker} from "../../shared/components/IconPicker";
 
 import { useCategories } from "../../shared/hook/useCategories";
 import { useToolForm } from "./hooks/useToolForm"
 
-import { TOOL_TAGS }from "./constants/tool.constants";
+import { TOOL_TAGS } from "./constants/tool.constants";
 
 interface Props {
   onSubmit: (
     formData: FormData
   ) => Promise<void> | void;
 
-  initialData?: ToolFormData;
-}
+  initialData?: ToolResponse;
 
+  toolImageUrl?: string;
+  heroImageUrl?: string;
+  faqImageUrl?: string;
+}
 
 export default function ToolForm({
   onSubmit,
   initialData,
+
+  toolImageUrl,
+  heroImageUrl,
+  faqImageUrl,
 }: Props) {
 
-  const { form, setForm, logo, setLogo, } = useToolForm();
+  const {
+    form,
+    setForm,
+
+    toolImage,
+    setToolImage,
+
+    heroImage,
+    setHeroImage,
+
+    faqImage,
+    setFaqImage,
+  } = useToolForm();
 
   useEffect(() => {
     if (!initialData) return;
@@ -43,46 +61,48 @@ export default function ToolForm({
   }, [initialData, setForm]);
 
   const [loading, setLoading] =
-  useState(false);
+    useState(false);
 
   const { categories } = useCategories();
 
   const handleSubmit = async () => {
 
-const result =
-  toolSchema.safeParse(form);
+    const result =
+      toolSchema.safeParse(form);
 
-if (!result.success) {
-  alert(
-    result.error.issues[0].message
-  );
-  return;
-}
-
-  try {
-    setLoading(true);
-
-    const formData =
-      buildToolFormData(
-        form,
-        logo
+    if (!result.success) {
+      alert(
+        result.error.issues[0].message
       );
+      return;
+    }
 
-    await onSubmit(formData);
+    try {
+      setLoading(true);
+
+      const formData =
+        buildToolFormData(
+          form,
+          toolImage,
+          heroImage,
+          faqImage
+        );
+
+      await onSubmit(formData);
 
       alert(
-      initialData
-        ? "Tool updated successfully!"
-        : "Tool created successfully!"
-    );
-    
+        initialData
+          ? "Tool updated successfully!"
+          : "Tool created successfully!"
+      );
 
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -104,8 +124,21 @@ if (!result.success) {
       />
 
       <ImageUpload
-        label="Tool Logo"
-        onFileChange={setLogo}
+        label="Tool Image"
+        initialPreview={toolImageUrl}
+        onFileChange={setToolImage}
+      />
+
+      <ImageUpload
+        label="Hero Image"
+        initialPreview={heroImageUrl}
+        onFileChange={setHeroImage}
+      />
+
+      <ImageUpload
+        label="FAQ Image"
+        initialPreview={faqImageUrl}
+        onFileChange={setFaqImage}
       />
       <RatingSection
         form={form}

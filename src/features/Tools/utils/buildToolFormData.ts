@@ -3,7 +3,9 @@ from "../types/tool.types";
 
 export function buildToolFormData(
   form: ToolFormData,
-  logo: File | null
+  toolImage: File | null,
+  heroImage: File | null,
+  faqImage: File | null
 ): FormData {
 
   const formData = new FormData();
@@ -73,12 +75,26 @@ export function buildToolFormData(
     formData.append("tags", tag);
   });
 
-  if (logo) {
-    formData.append(
-      "image",
-      logo
-    );
-  }
+if (toolImage) {
+  formData.append(
+    "tool_image",
+    toolImage
+  );
+}
+
+if (heroImage) {
+  formData.append(
+    "hero_image",
+    heroImage
+  );
+}
+
+if (faqImage) {
+  formData.append(
+    "faq_image",
+    faqImage
+  );
+}
 
   return formData;
 }
