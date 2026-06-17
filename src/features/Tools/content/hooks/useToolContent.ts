@@ -1,0 +1,59 @@
+import { useEffect, useState } from "react";
+
+import { createEmptyToolContent } from "../constants/toolContent.initial";
+import { getToolContent } from "../service/toolContent.service";
+import type { ToolContent } from "../types/toolContent.types";
+
+export function useToolContent(
+  toolId?: string
+) {
+  const [content, setContent] =
+    useState<ToolContent>(
+      createEmptyToolContent(toolId || "")
+    );
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState<string | null>(null);
+
+  useEffect(() => {
+    if (!toolId) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchToolContent =
+      async () => {
+        try {
+          setLoading(true);
+          setError(null);
+
+          const res =
+            await getToolContent(toolId);
+
+          setContent({
+            ...createEmptyToolContent(toolId),
+            ...res.data.data,
+            toolId,
+          });
+        } catch (fetchError) {
+          console.error(fetchError);
+          setError("Unable to load tool content");
+          setContent(createEmptyToolContent(toolId));
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    fetchToolContent();
+  }, [toolId]);
+
+  return {
+    content,
+    setContent,
+    loading,
+    error,
+  };
+}
