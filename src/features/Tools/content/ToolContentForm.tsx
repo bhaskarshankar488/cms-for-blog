@@ -13,8 +13,10 @@ import PricingSection from "./components/PricingSection";
 import ProsConsSection from "./components/ProsConsSection";
 import UnderTheHoodSection from "./components/UnderTheHoodSection";
 import { useToolContent } from "./hooks/useToolContent";
-import { updateToolContent } from "./service/toolContent.service";
+import { updateToolContent, createToolContent } from "./service/toolContent.service";
 import { toolContentSchema } from "./validation/toolContent.schema";
+
+
 
 interface Props {
   toolId?: string;
@@ -32,6 +34,8 @@ export default function ToolContentForm({
 
   const [saving, setSaving] =
     useState(false);
+
+  const hasContent = Boolean(content._id);
 
   const handleSave =
     async () => {
@@ -71,6 +75,47 @@ export default function ToolContentForm({
         setSaving(false);
       }
     };
+
+  const handleCreate = async () => {
+    if (!toolId) {
+      alert("Tool id is required");
+      return;
+    }
+
+    const payload = {
+      ...content,
+      toolId,
+    };
+
+    delete payload._id;
+
+    const result =
+      toolContentSchema.safeParse(payload);
+
+    if (!result.success) {
+      alert(result.error.issues[0].message);
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      await createToolContent(
+        result.data
+      );
+
+      alert(
+        "Tool content created successfully!"
+      );
+    } catch (error) {
+      console.error(error);
+      alert(
+        "Unable to create tool content"
+      );
+    } finally {
+      setSaving(false);
+    }
+  };
 
   if (loading) {
     return <p>Loading tool content...</p>;
@@ -213,10 +258,18 @@ export default function ToolContentForm({
       <button
         type="button"
         disabled={saving}
-        onClick={handleSave}
+        onClick={
+          hasContent
+            ? handleSave
+            : handleCreate
+        }
         className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
       >
-        {saving ? "Saving..." : "Save Tool Content"}
+        {saving
+          ? "Saving..."
+          : hasContent
+            ? "Update Tool Content"
+            : "Create Tool Content"}
       </button>
     </div>
   );
