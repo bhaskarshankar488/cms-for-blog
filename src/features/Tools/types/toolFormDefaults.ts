@@ -15,6 +15,12 @@ export const DEFAULT_TOOL_FORM: ToolFormData = {
 
   categoryId: "",
 
+  seo: {
+  metaTitle: "",
+  metaDescription: "",
+  metaKeywords: [],
+},
+
   ratingValue: "",
   ratingCount: "",
   reviewCount: "",

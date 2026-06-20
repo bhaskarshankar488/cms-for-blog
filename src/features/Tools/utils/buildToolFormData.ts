@@ -1,3 +1,4 @@
+import { string } from "zod";
 import type { ToolFormData }
 from "../types/tool.types";
 
@@ -49,6 +50,11 @@ export function buildToolFormData(
     "categoryId",
     form.categoryId
   );
+
+formData.append(
+  "seo",
+  JSON.stringify(form.seo)
+);
 
   if (form.ratingValue !== "") {
     formData.append(

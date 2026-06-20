@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { toolSchema } from "./validation/tool.schema";
 
 
-import type {ToolResponse } from "./types/tool.types";
+import type { ToolResponse } from "./types/tool.types";
 
 import { buildToolFormData } from "./utils/buildToolFormData"
 
 import BasicInfoSection from "./components/BasicInfoSection";
 import RatingSection from "./components/RatingSection";
 import TagsSection from "./components/TagsSection";
+
+import SeoSection from "./components/SeoSection";
 import CategorySection from "../../shared/Component/CategorySection";
 import ImageUpload from "../../shared/Component/ImageUpload";
 
@@ -104,13 +106,34 @@ export default function ToolForm({
     }
   };
 
-  return (
-    <div className="space-y-4">
+return (
+  <div className="mt-8 space-y-12">
+    <div className="border-t pt-6">
+      <h2 className="text-2xl font-bold text-gray-800">
+        Tool Information
+      </h2>
+    </div>
+
+    <section className="space-y-6">
+      <div className="bg-blue-50 border-l-4 border-blue-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-blue-700">
+          Basic Information
+        </h2>
+      </div>
+
       <BasicInfoSection
         form={form}
         setForm={setForm}
         isEditMode={!!initialData}
       />
+    </section>
+
+    <section className="space-y-6">
+      <div className="bg-green-50 border-l-4 border-green-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-green-700">
+          Category Section
+        </h2>
+      </div>
 
       <CategorySection
         value={form.categoryId}
@@ -122,28 +145,68 @@ export default function ToolForm({
           })
         }
       />
+    </section>
 
-      <ImageUpload
-        label="Tool Image"
-        initialPreview={toolImageUrl}
-        onFileChange={setToolImage}
-      />
+    <section className="space-y-6">
+      <div className="bg-purple-50 border-l-4 border-purple-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-purple-700">
+          SEO Section
+        </h2>
+      </div>
 
-      <ImageUpload
-        label="Hero Image"
-        initialPreview={heroImageUrl}
-        onFileChange={setHeroImage}
+      <SeoSection
+        form={form}
+        setForm={setForm}
       />
+    </section>
 
-      <ImageUpload
-        label="FAQ Image"
-        initialPreview={faqImageUrl}
-        onFileChange={setFaqImage}
-      />
+    <section className="space-y-6">
+      <div className="bg-orange-50 border-l-4 border-orange-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-orange-700">
+          Images Section
+        </h2>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <ImageUpload
+          label="Tool Image"
+          initialPreview={toolImageUrl}
+          onFileChange={setToolImage}
+        />
+
+        <ImageUpload
+          label="Hero Image"
+          initialPreview={heroImageUrl}
+          onFileChange={setHeroImage}
+        />
+
+        <ImageUpload
+          label="FAQ Image"
+          initialPreview={faqImageUrl}
+          onFileChange={setFaqImage}
+        />
+      </div>
+    </section>
+
+    <section className="space-y-6">
+      <div className="bg-cyan-50 border-l-4 border-cyan-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-cyan-700">
+          Ratings & Reviews
+        </h2>
+      </div>
+
       <RatingSection
         form={form}
         setForm={setForm}
       />
+    </section>
+
+    <section className="space-y-6">
+      <div className="bg-emerald-50 border-l-4 border-emerald-500 px-4 py-3 rounded-md">
+        <h2 className="text-xl font-bold text-emerald-700">
+          Tags Section
+        </h2>
+      </div>
 
       <TagsSection
         selectedTags={form.tags}
@@ -157,15 +220,20 @@ export default function ToolForm({
         maxTags={3}
         label="Tool Tags"
       />
+    </section>
 
-      <button
-        type="button"
-        disabled={loading}
-        onClick={handleSubmit}
-        className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-      >
-        {loading ? "Saving..." : "Submit"}
-      </button>
-    </div>
-  );
+    <button
+      type="button"
+      disabled={loading}
+      onClick={handleSubmit}
+      className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+    >
+      {loading
+        ? "Saving..."
+        : initialData
+          ? "Update Tool"
+          : "Create Tool"}
+    </button>
+  </div>
+);
 }

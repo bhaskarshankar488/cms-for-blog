@@ -17,6 +17,12 @@ export const toolSchema = z.object({
     .string()
     .min(1, "Category is required"),
 
+  seo: z.object({
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    metaKeywords: z.array(z.string()).optional(),
+  }).optional(),
+
   tags: z
     .array(z.string())
     .min(1, "Please select at least one tag")

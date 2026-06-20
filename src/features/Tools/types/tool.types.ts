@@ -1,3 +1,9 @@
+export interface SeoData {
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string[];
+}
+
 export interface ToolFormData {
   name: string;
   slug: string;
@@ -9,6 +15,8 @@ export interface ToolFormData {
   brand: string;
   link: string;
   categoryId: string;
+
+  seo: SeoData;
 
   ratingValue: number | "";
   ratingCount: number | "";
