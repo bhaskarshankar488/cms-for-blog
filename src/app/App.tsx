@@ -14,6 +14,8 @@ import Dashboard from "../pages/Dashboard"
 import { pagesRoutes } from "../routes/pages.routes"
 import { toolsRoutes } from "../routes/tools.routes"
 import { categoriesRoutes } from "../routes/categories.routes"
+import { ToolAlternative } from "../routes/Alternative.routes";
+
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
             {categoriesRoutes}
 
             {usersRoutes}
+
+            {ToolAlternative}
 
           </Route>
 
