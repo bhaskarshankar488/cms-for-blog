@@ -45,7 +45,7 @@ export const getAlternatives =
     return response.data;
   };
 
-  export const searchToolsApi =
+export const searchToolsApi =
   async (
     query: string
   ) => {
@@ -55,4 +55,14 @@ export const getAlternatives =
       );
 
     return response.data.data;
+  };
+
+export const deleteAlternative =
+  async (id: string) => {
+    const response =
+      await axios.delete(
+        `/alternatve/${id}`
+      );
+
+    return response.data;
   };

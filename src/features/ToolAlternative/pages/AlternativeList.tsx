@@ -1,170 +1,262 @@
+import ConfirmModal from "../../../shared/Component/ConfirmModal"
+
 import {
-  useEffect,
-  useState,
+    useEffect,
+    useState,
 } from "react";
 
 import {
-  Link,
+    deleteAlternative,
+} from "../service/alternative.service";
+
+
+import { toast }
+    from "react-hot-toast";
+
+import {
+    Link,
 } from "react-router-dom";
 
 import {
-  getAlternatives,
+    getAlternatives,
 } from "../service/alternative.service";
 
 const AlternativeList = () => {
-  const [
-    alternatives,
-    setAlternatives,
-  ] = useState<any[]>(
-    []
-  );
 
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
+    const [
+        deleteId,
+        setDeleteId,
+    ] = useState<
+        string | null
+    >(null);
 
-  useEffect(() => {
-    fetchAlternatives();
-  }, []);
+    const [
+        deleting,
+        setDeleting,
+    ] = useState(false);
 
-  const fetchAlternatives =
-    async () => {
-      try {
-        const response =
-          await getAlternatives();
 
-        setAlternatives(
-          response.data
-        );
-      } catch (
-        error
-      ) {
-        console.error(
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  if (loading) {
-    return (
-      <div className="p-6">
-        Loading...
-      </div>
+    const [
+        alternatives,
+        setAlternatives,
+    ] = useState<any[]>(
+        []
     );
-  }
 
-  return (
-    <div className="container mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">
-          Alternatives
-        </h1>
+    const [
+        loading,
+        setLoading,
+    ] = useState(true);
 
-        <Link
-          to="/alternatives/create"
-          className="rounded-md bg-blue-600 px-4 py-2 text-white"
-        >
-          Create Alternative
-        </Link>
-      </div>
+    useEffect(() => {
+        fetchAlternatives();
+    }, []);
 
-      <div className="overflow-hidden rounded-lg border">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-3 text-left">
-                Title
-              </th>
+    const fetchAlternatives =
+        async () => {
+            try {
+                const response =
+                    await getAlternatives();
 
-              <th className="p-3 text-left">
-                Slug
-              </th>
+                setAlternatives(
+                    response.data
+                );
+            } catch (
+            error
+            ) {
+                console.error(
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
 
-              <th className="p-3 text-left">
-                Status
-              </th>
+    const handleDelete =
+        async () => {
+            if (!deleteId) {
+                return;
+            }
 
-              <th className="p-3 text-left">
-                Created
-              </th>
+            try {
+                setDeleting(true);
 
-              <th className="p-3 text-left">
-                Actions
-              </th>
-            </tr>
-          </thead>
+                const response =
+                    await deleteAlternative(
+                        deleteId
+                    );
 
-          <tbody>
-            {alternatives.map(
-              (
-                item
-              ) => (
-                <tr
-                  key={
-                    item._id
-                  }
-                  className="border-t"
+                toast.success(
+                    response.message
+                );
+
+                setAlternatives(
+                    (prev) =>
+                        prev.filter(
+                            (
+                                item
+                            ) =>
+                                item._id !==
+                                deleteId
+                        )
+                );
+
+                setDeleteId(
+                    null
+                );
+            } catch (
+            error: any
+            ) {
+                toast.error(
+                    error.response?.data
+                        ?.message ||
+                    "Delete failed"
+                );
+            } finally {
+                setDeleting(false);
+            }
+        };
+
+
+
+    if (loading) {
+        return (
+            <div className="p-6">
+                Loading...
+            </div>
+        );
+    }
+
+    return (
+        <div className="container mx-auto">
+            <div className="mb-6 flex items-center justify-between">
+                <h1 className="text-2xl font-bold">
+                    Alternatives
+                </h1>
+
+                <Link
+                    to="/alternatives/create"
+                    className="rounded-md bg-blue-600 px-4 py-2 text-white"
                 >
-                  <td className="p-3">
-                    {
-                      item.title
-                    }
-                  </td>
+                    Create Alternative
+                </Link>
+            </div>
 
-                  <td className="p-3">
-                    {
-                      item.slug
-                    }
-                  </td>
+            <div className="overflow-hidden rounded-lg border">
+                <table className="w-full">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="p-3 text-left">
+                                Title
+                            </th>
 
-                  <td className="p-3">
-                    <span
-                      className={`rounded px-2 py-1 text-xs ${
-                        item.status ===
-                        "active"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {
-                        item.status
-                      }
-                    </span>
-                  </td>
+                            <th className="p-3 text-left">
+                                Slug
+                            </th>
 
-                  <td className="p-3">
-                    {new Date(
-                      item.createdAt
-                    ).toLocaleDateString()}
-                  </td>
+                            <th className="p-3 text-left">
+                                Status
+                            </th>
 
-                  <td className="p-3">
-                    <div className="flex gap-2">
-                      <Link
-                        to={`/alternatives/edit/${item._id}`}
-                        className="rounded bg-blue-600 px-3 py-1 text-sm text-white"
-                      >
-                        Edit
-                      </Link>
+                            <th className="p-3 text-left">
+                                Created
+                            </th>
 
-                      <button
-                        className="rounded bg-red-600 px-3 py-1 text-sm text-white"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+                            <th className="p-3 text-left">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {alternatives.map(
+                            (
+                                item
+                            ) => (
+                                <tr
+                                    key={
+                                        item._id
+                                    }
+                                    className="border-t"
+                                >
+                                    <td className="p-3">
+                                        {
+                                            item.title
+                                        }
+                                    </td>
+
+                                    <td className="p-3">
+                                        {
+                                            item.slug
+                                        }
+                                    </td>
+
+                                    <td className="p-3">
+                                        <span
+                                            className={`rounded px-2 py-1 text-xs ${item.status ===
+                                                "active"
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-red-100 text-red-700"
+                                                }`}
+                                        >
+                                            {
+                                                item.status
+                                            }
+                                        </span>
+                                    </td>
+
+                                    <td className="p-3">
+                                        {new Date(
+                                            item.createdAt
+                                        ).toLocaleDateString()}
+                                    </td>
+
+                                    <td className="p-3">
+                                        <div className="flex gap-2">
+                                            <Link
+                                                to={`/alternatives/edit/${item._id}`}
+                                                className="rounded bg-blue-600 px-3 py-1 text-sm text-white"
+                                            >
+                                                Edit
+                                            </Link>
+
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setDeleteId(
+                                                        item._id
+                                                    )
+                                                }
+                                                className="rounded bg-red-600 px-3 py-1 text-sm text-white"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            <ConfirmModal
+                open={
+                    Boolean(deleteId)
+                }
+                title="Delete Alternative"
+                message="Are you sure you want to delete this alternative? This action cannot be undone."
+                loading={deleting}
+                onClose={() =>
+                    setDeleteId(
+                        null
+                    )
+                }
+                onConfirm={
+                    handleDelete
+                }
+            />
+        </div>
+    );
 };
 
 export default AlternativeList;
