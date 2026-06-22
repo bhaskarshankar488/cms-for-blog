@@ -79,6 +79,12 @@ export default function AdminLayout() {
                         >
                             Categories
                         </Link>
+                        <Link
+                            to="/AlternativeList"
+                            className="block px-3 py-2 rounded hover:bg-gray-100"
+                        >
+                            AlternativeList
+                        </Link>
 
                     </nav>
 

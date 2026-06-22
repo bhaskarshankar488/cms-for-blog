@@ -215,20 +215,44 @@ const AlternativeList = () => {
                                         <div className="flex gap-2">
                                             <Link
                                                 to={`/alternatives/edit/${item._id}`}
-                                                className="rounded bg-blue-600 px-3 py-1 text-sm text-white"
+                                                className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-600 transition-all duration-200 hover:border-blue-300 hover:bg-blue-100"
                                             >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-4 w-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L12 15l-4 1 1-4 8.586-8.586z"
+                                                    />
+                                                </svg>
                                                 Edit
                                             </Link>
 
                                             <button
                                                 type="button"
-                                                onClick={() =>
-                                                    setDeleteId(
-                                                        item._id
-                                                    )
-                                                }
-                                                className="rounded bg-red-600 px-3 py-1 text-sm text-white"
+                                                onClick={() => setDeleteId(item._id)}
+                                                className="inline-flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100 hover:border-red-300"
                                             >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-4 w-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M19 7L18.132 19.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.994-1.858L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-7 0h8"
+                                                    />
+                                                </svg>
                                                 Delete
                                             </button>
                                         </div>
