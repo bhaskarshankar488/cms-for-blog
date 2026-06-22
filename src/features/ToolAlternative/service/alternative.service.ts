@@ -29,7 +29,7 @@ export const getAlternative =
   async (id: string) => {
     const response =
       await axios.get(
-        `/alternatives/${id}`
+        `/alternatve/${id}`
       );
 
     return response.data;
@@ -39,7 +39,7 @@ export const getAlternatives =
   async () => {
     const response =
       await axios.get(
-        "/alternatives"
+        "/alternatve"
       );
 
     return response.data;
