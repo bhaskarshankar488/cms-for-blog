@@ -6,6 +6,13 @@ export const alternativeSchema =
       .string()
       .min(1, "Title is required"),
 
+    toolId: z
+      .string()
+      .min(
+        1,
+        "Main tool is required"
+      ),
+
     slug: z
       .string()
       .min(1, "Slug is required"),

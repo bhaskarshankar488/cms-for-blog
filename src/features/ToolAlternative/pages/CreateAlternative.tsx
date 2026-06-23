@@ -14,6 +14,8 @@ import { initialAlternative } from "../constants/alternative.initial";
 
 import { createAlternative, } from "../service/alternative.service";
 
+import { scrollToError } from "../utils/scolltoerror";
+
 const CreateAlternative = () => {
 
   const navigate =
@@ -52,13 +54,50 @@ const CreateAlternative = () => {
           validationErrors
         );
 
+        scrollToError(
+          validationErrors
+        );
+
+        console.log(
+          validationErrors
+        );
         return;
       }
 
       setErrors({});
 
       const payload = {
-        ...formData,
+        toolId:
+          formData.toolId,
+
+        title:
+          formData.title,
+
+        slug:
+          formData.slug,
+
+        pageDescription:
+          formData.pageDescription,
+
+        seo:
+          formData.seo,
+
+        faq:
+          formData.faq.map(
+            (item) => ({
+              question:
+                item.question,
+
+              answer:
+                item.answer,
+            })
+          ),
+
+        content:
+          formData.content,
+
+        status:
+          formData.status,
 
         tools:
           formData.tools.map(

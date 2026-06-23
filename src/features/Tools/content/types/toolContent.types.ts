@@ -1,3 +1,43 @@
+export interface AlternativeTool {
+  alternativeId:
+    | string
+    | AlternativeReference;
+
+  position: number;
+
+  isSponsored: boolean;
+}
+
+
+export interface AlternativeDisplay {
+  alternativeId: string;
+  title: string;
+  image: string;
+  position: number;
+  isSponsored: boolean;
+}
+
+export interface AlternativeOption {
+  _id: string;
+  title: string;
+  slug: string;
+  image: string;
+}
+
+export interface AlternativeReference {
+  _id: string;
+  title: string;
+  slug: string;
+
+  toolId: {
+    images: {
+      tool: {
+        url: string;
+      };
+    };
+  };
+}
+
 export interface HeroBadge {
   text: string;
   icon: string;
@@ -95,6 +135,8 @@ export interface ToolContent {
 
   toolId: string;
 
+  alternativeTools: AlternativeTool[];
+
   hero: Hero;
 
   coreCapabilities: CoreCapability[];
@@ -119,3 +161,5 @@ export interface ToolContent {
 
   ctaBanner: CTABanner;
 }
+
+

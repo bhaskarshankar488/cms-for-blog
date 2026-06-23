@@ -3,6 +3,8 @@ import { useState } from "react";
 import { searchToolsApi }
 from "../service/alternative.service";
 
+import toast from "react-hot-toast";
+
 import type {
   AlternativeFormData,
   ToolSearchResult,
@@ -78,6 +80,17 @@ const AlternativeToolsSection = ({
   const addTool = (
     tool: ToolSearchResult
   ) => {
+    if (
+  tool._id ===
+  formData.toolId
+) {
+  toast.error(
+    "Main tool cannot be added as an alternative tool"
+  );
+
+  return;
+}
+
     const exists =
       formData.tools.some(
         (item) =>

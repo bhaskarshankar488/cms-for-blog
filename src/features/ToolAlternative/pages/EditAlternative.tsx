@@ -30,6 +30,8 @@ import {
   mapAlternativeForEdit,
 } from "../utils/mapAlternativeForEdit";
 
+import { scrollToError } from "../utils/scolltoerror";
+
 const EditAlternative = () => {
 
   const navigate =
@@ -124,12 +126,17 @@ const EditAlternative = () => {
           validationErrors
         );
 
+        scrollToError(validationErrors);
+
         return;
       }
 
       setErrors({});
 
       const payload = {
+        toolId:
+          formData.toolId,
+
         title:
           formData.title,
 

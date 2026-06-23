@@ -12,6 +12,19 @@ const iconTitleSchema = z.object({
 
 export const toolContentSchema = z.object({
   _id: z.string().optional(),
+
+  alternativeTools: z.array(
+    z.object({
+      alternativeId: z.string(),
+
+      position: z.number()
+        .min(1),
+
+      isSponsored: z.boolean(),
+    })
+  ),
+
+
   toolId: z.string().min(1, "Tool id is required"),
   hero: z.object({
     hero_badges: z.array(iconTextSchema),

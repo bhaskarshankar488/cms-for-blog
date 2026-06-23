@@ -3,6 +3,8 @@ import SeoSection from "./SeoSection";
 import AlternativeToolsSection from "./AlternativeToolsSection";
 import FaqSection from "./FaqSection";
 import ContentSection from "./ContentSection";
+import MainToolSection
+  from "./MainToolSection";
 
 import type {
   AlternativeFormData,
@@ -31,6 +33,12 @@ const AlternativeForm = ({
   return (
     <div className="space-y-8">
       <BasicInfoSection
+        formData={formData}
+        setFormData={setFormData}
+        errors={errors}
+      />
+
+      <MainToolSection
         formData={formData}
         setFormData={setFormData}
         errors={errors}

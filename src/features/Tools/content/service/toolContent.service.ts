@@ -41,3 +41,11 @@ export const getToolWithContent = (
     `/tool-content/${toolId}/full`
   );
 };
+
+export const searchAlternatives = (
+  search: string
+) => {
+  return axios.get(
+    `/alternatve?search=${search}`
+  );
+};

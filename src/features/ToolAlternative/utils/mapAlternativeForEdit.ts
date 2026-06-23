@@ -1,10 +1,22 @@
 export const mapAlternativeForEdit = (
   data: any
-) => {
-  return {
-    ...data,
+) => ({
+  ...data,
 
-    tools: data.tools.map(
+  toolId:
+    data.toolId?._id ||
+    "",
+
+  mainToolName:
+    data.toolId?.name ||
+    "",
+
+  mainToolBrand:
+    data.toolId?.brand ||
+    "",
+
+  tools:
+    (data.tools || []).map(
       (tool: any) => ({
         toolId:
           tool.toolId._id,
@@ -22,5 +34,15 @@ export const mapAlternativeForEdit = (
           tool.position,
       })
     ),
-  };
-};
+
+  faq:
+    (data.faq || []).map(
+      (faq: any) => ({
+        question:
+          faq.question,
+
+        answer:
+          faq.answer,
+      })
+    ),
+});

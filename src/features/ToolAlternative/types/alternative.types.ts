@@ -20,6 +20,8 @@ export interface AlternativeSeo {
 export interface AlternativeFormData {
   _id?: string;
 
+  toolId: string;
+
   title: string;
   slug: string;
 

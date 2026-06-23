@@ -4,7 +4,13 @@ from "../types/alternative.types";
 export const initialAlternative:
   AlternativeFormData = {
   title: "",
+
+  toolId:"",
   slug: "",
+
+mainToolName: "",
+
+mainToolBrand: "",
 
   pageDescription: "",
 

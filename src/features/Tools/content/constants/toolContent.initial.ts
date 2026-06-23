@@ -2,6 +2,8 @@ import type { ToolContent } from "../types/toolContent.types";
 
 export const EMPTY_TOOL_CONTENT: ToolContent = {
   toolId: "",
+
+  alternativeTools: [],
   hero: {
     hero_badges: [],
   },
