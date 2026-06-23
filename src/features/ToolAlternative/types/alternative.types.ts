@@ -22,6 +22,10 @@ export interface AlternativeFormData {
 
   toolId: string;
 
+  mainToolName?: string;
+
+  mainToolBrand?: string;
+
   title: string;
   slug: string;
 
