@@ -17,8 +17,6 @@ import { updateToolContent, createToolContent } from "./service/toolContent.serv
 import { toolContentSchema } from "./validation/toolContent.schema";
 import AlternativeToolsSection from "./components/AlternativeToolsSection";
 
-
-
 interface Props {
   toolId?: string;
 }
@@ -47,19 +45,6 @@ export default function ToolContentForm({
 
       const payload = {
         ...content,
-
-        alternativeTools:
-          content.alternativeTools.map(
-            (item) => ({
-              ...item,
-
-              alternativeId:
-                typeof item.alternativeId ===
-                  "string"
-                  ? item.alternativeId
-                  : item.alternativeId._id,
-            })
-          ),
 
         toolId,
       };
@@ -99,19 +84,6 @@ export default function ToolContentForm({
 
     const payload = {
       ...content,
-
-      alternativeTools:
-        content.alternativeTools.map(
-          (item) => ({
-            ...item,
-
-            alternativeId:
-              typeof item.alternativeId ===
-                "string"
-                ? item.alternativeId
-                : item.alternativeId._id,
-          })
-        ),
 
       toolId,
     };
@@ -167,6 +139,26 @@ export default function ToolContentForm({
       <section className="space-y-6">
         <div className="bg-blue-50 border-l-4 border-blue-500 px-4 py-3 rounded-md">
           <h2 className="text-xl font-bold text-blue-700">
+            Selelect Alernative Tool
+          </h2>
+        </div>
+        <AlternativeToolsSection
+          value={content.alternativeTools}
+          initialTools={
+            content.alternativeToolsData || []
+          }
+          onChange={(alternativeTools) =>
+            setContent((prev) => ({
+              ...prev,
+              alternativeTools,
+            }))
+          }
+        />
+
+      </section>
+      <section className="space-y-6">
+        <div className="bg-blue-50 border-l-4 border-blue-500 px-4 py-3 rounded-md">
+          <h2 className="text-xl font-bold text-blue-700">
             Hero Section
           </h2>
         </div>
@@ -180,27 +172,6 @@ export default function ToolContentForm({
           }
         />
       </section>
-      <section className="space-y-6">
-        <div className="bg-blue-50 border-l-4 border-blue-500 px-4 py-3 rounded-md">
-          <h2 className="text-xl font-bold text-blue-700">
-            lternativeToolsSection
-          </h2>
-        </div>
-        <AlternativeToolsSection
-          value={
-            content.alternativeTools
-          }
-          onChange={(
-            alternativeTools
-          ) =>
-            setContent({
-              ...content,
-              alternativeTools,
-            })
-          }
-        />
-      </section>
-
       <section className="space-y-6">
         <div className="bg-green-50 border-l-4 border-green-500 px-4 py-3 rounded-md">
           <h2 className="text-xl font-bold text-green-700">

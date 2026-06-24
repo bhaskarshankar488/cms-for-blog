@@ -12,3 +12,38 @@ export interface ToolFormData {
 
   tags: string[];
 }
+
+export interface ToolOption {
+    id: string;
+    name: string;
+    slug: string;
+    brand: string;
+    image: string;
+}
+
+export interface ToolMultiSelectProps {
+    value: string[];
+    onChange: (ids: string[]) => void;
+
+    initialSelectedTools?: ToolOption[];
+
+    label?: string;
+    placeholder?: string;
+}
+
+export interface ToolOption {
+  id: string;
+  name: string;
+  slug: string;
+  brand: string;
+  image: string;
+}
+
+export interface ToolSelectorProps {
+    onSelect: (
+        tool: ToolOption
+    ) => void;
+
+    label?: string;
+    placeholder?: string;
+}

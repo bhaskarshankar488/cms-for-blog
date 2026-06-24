@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createEmptyToolContent } from "../constants/toolContent.initial";
 import { getToolContent } from "../service/toolContent.service";
 import type { ToolContent } from "../types/toolContent.types";
+import { transformToolContent } from "../transformers/toolContent.transform";
 
 export function useToolContent(
   toolId?: string
@@ -33,9 +34,14 @@ export function useToolContent(
           const res =
             await getToolContent(toolId);
 
+          const transformedData =
+            transformToolContent(
+              res.data.data
+            );
+
           setContent({
             ...createEmptyToolContent(toolId),
-            ...res.data.data,
+            ...transformedData,
             toolId,
           });
         } catch (fetchError) {

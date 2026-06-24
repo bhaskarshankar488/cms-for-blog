@@ -46,6 +46,6 @@ export const searchAlternatives = (
   search: string
 ) => {
   return axios.get(
-    `/alternatve?search=${search}`
+    `/tools/?search=${search}`
   );
 };
