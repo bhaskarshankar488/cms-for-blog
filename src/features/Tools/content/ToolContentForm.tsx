@@ -161,6 +161,7 @@ export default function ToolContentForm({
           <h2 className="text-xl font-bold text-blue-700">
             Hero Section
           </h2>
+          
         </div>
         <HeroSection
           value={content.hero}
