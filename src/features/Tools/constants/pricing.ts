@@ -6,6 +6,7 @@ export const PRICING_OPTIONS = [
   "Paid",
   "Premium",
   "Limited Access",
+  "Upcoming",
 ] as const;
 
 export type PricingLabel =
