@@ -99,99 +99,123 @@ export default function AlternativeToolsSection({
 
     return (
         <div className="space-y-6">
-            <ToolSelector
-                onSelect={handleAddTool}
-                label="Alternative Tools"
-                placeholder="Search alternative tools..."
-            />
+            {/* Section Header */}
+            <div className="border-b border-gray-200 pb-4">
+                <h2 className="text-xl font-semibold text-gray-900">
+                    Alternative Tools
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                    Select and manage alternative tools displayed on the tool details page.
+                </p>
+            </div>
 
-            {tools.length > 0 && (
-                <div className="space-y-3">
-                    {tools.map((tool) => {
-                        const selected =
-                            value.find(
-                                (item) =>
-                                    item.alternativeId ===
-                                    tool.id
+            {/* Search */}
+            <div className="rounded-xl border border-gray-200 bg-white p-5">
+                <ToolSelector
+                    onSelect={handleAddTool}
+                    label="Search Tool"
+                    placeholder="Search alternative tools..."
+                />
+            </div>
+
+            {/* Selected Tools */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h3 className="text-sm font-semibold text-gray-900">
+                            Selected Tools
+                        </h3>
+                        <p className="text-xs text-gray-500">
+                            Manage alternative tools for this page.
+                        </p>
+                    </div>
+
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+                        {tools.length} Selected
+                    </span>
+                </div>
+
+                {tools.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 py-12 text-center">
+                        <p className="text-sm font-medium text-gray-700">
+                            No alternative tools selected
+                        </p>
+                        <p className="mt-1 text-sm text-gray-500">
+                            Search and select a tool above to add it here.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="space-y-3">
+                        {tools.map((tool) => {
+                            const selected = value.find(
+                                (item) => item.alternativeId === tool.id
                             );
 
-                        if (!selected)
-                            return null;
+                            if (!selected) return null;
 
-                        return (
-                            <div
-                                key={tool.id}
-                                className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-                                        #
-                                        {
-                                            selected.position
-                                        }
-                                    </div>
+                            return (
+                                <div
+                                    key={tool.id}
+                                    className="rounded-xl border border-gray-200 bg-white p-5 transition hover:border-blue-300"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        {/* Left */}
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-sm font-semibold text-blue-700">
+                                                #{selected.position}
+                                            </div>
 
-                                    <img
-                                        src={
-                                            tool.image
-                                        }
-                                        alt={
-                                            tool.name
-                                        }
-                                        className="h-12 w-12 rounded-lg object-cover"
-                                    />
+                                            <img
+                                                src={tool.image}
+                                                alt={tool.name}
+                                                className="h-14 w-14 rounded-lg border object-cover"
+                                            />
 
-                                    <div>
-                                        <h4 className="font-medium">
-                                            {
-                                                tool.name
-                                            }
-                                        </h4>
+                                            <div>
+                                                <h4 className="text-sm font-semibold text-gray-900">
+                                                    {tool.name}
+                                                </h4>
 
-                                        <p className="text-sm text-gray-500">
-                                            {
-                                                tool.brand
-                                            }
-                                        </p>
+                                                <p className="text-sm text-gray-500">
+                                                    {tool.brand}
+                                                </p>
+
+                                                <p className="mt-1 text-xs text-gray-400">
+                                                    {tool.slug}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Right */}
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => toggleSponsored(tool.id)}
+                                                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${selected.isSponsored
+                                                        ? "border border-amber-200 bg-amber-50 text-amber-700"
+                                                        : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                                                    }`}
+                                            >
+                                                {selected.isSponsored
+                                                    ? "Sponsored"
+                                                    : "Organic"}
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemove(tool.id)}
+                                                className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div className="flex items-center gap-3">
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            toggleSponsored(
-                                                tool.id
-                                            )
-                                        }
-                                        className={
-                                            selected?.isSponsored
-                                                ? "rounded-full bg-amber-100 px-4 py-2 text-sm font-medium text-amber-700"
-                                                : "rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600"
-                                        }
-                                    >
-                                        {selected.isSponsored
-                                            ? "Sponsored"
-                                            : "Organic"}
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleRemove(
-                                                tool.id
-                                            )
-                                        }
-                                        className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
