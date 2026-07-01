@@ -129,28 +129,66 @@ export default function BasicInfoSection({
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-         GlobalDescription Description for AI tools Directory
-        </label>
-        <textarea
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
-          placeholder="Short description"
-          value={form.globalDescription}
-          onChange={handleglobalDescriptionChange}
-        />
-      </div>
+      <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Description
+          </h3>
+          <p className="text-sm text-gray-500 mt-1">
+            These descriptions are used in different parts of the website.
+          </p>
+        </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-         Product Description for AI tools content
-        </label>
-        <textarea
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
-          placeholder="Short description"
-          value={form.ProductDescription}
-          onChange={handleProductDescriptioneChange}
-        />
+        {/* Global Description */}
+        <div className="rounded-lg border border-gray-200 p-4">
+          <label className="block text-sm font-medium text-gray-900">
+            Global Description
+          </label>
+          <p className="text-xs text-gray-500 mt-1 mb-3">
+            Used for AI Tools Directory listings, search results, and overview pages.
+          </p>
+
+          <textarea
+            rows={6}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+            value={form.globalDescription}
+            onChange={handleglobalDescriptionChange}
+          />
+        </div>
+
+        {/* Hero Description */}
+        <div className="rounded-lg border border-gray-200 p-4">
+          <label className="block text-sm font-medium text-gray-900">
+            Hero Description
+          </label>
+          <p className="text-xs text-gray-500 mt-1 mb-3">
+            Displayed in the hero section of the tool details page.
+          </p>
+
+          <textarea
+            rows={6}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+            value={form.whatIsIt}
+            onChange={handleWhatIsItChange}
+          />
+        </div>
+
+        {/* Product Description */}
+        <div className="rounded-lg border border-gray-200 p-4">
+          <label className="block text-sm font-medium text-gray-900">
+            Product Description
+          </label>
+          <p className="text-xs text-gray-500 mt-1 mb-3">
+            Used in AI-generated content and product information sections.
+          </p>
+
+          <textarea
+            rows={6}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+            value={form.ProductDescription}
+            onChange={handleProductDescriptioneChange}
+          />
+        </div>
       </div>
 
       <div>
@@ -194,19 +232,6 @@ export default function BasicInfoSection({
             </option>
           ))}
         </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          What is this Tool means for tool content in hero section 
-        </label>
-        <textarea
-          rows={5}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
-          placeholder="Describe the tool..."
-          value={form.whatIsIt}
-          onChange={handleWhatIsItChange}
-        />
       </div>
     </div>
   );
