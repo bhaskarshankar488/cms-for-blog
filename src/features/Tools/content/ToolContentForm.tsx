@@ -161,7 +161,7 @@ export default function ToolContentForm({
           <h2 className="text-xl font-bold text-blue-700">
             Hero Section
           </h2>
-          
+
         </div>
         <HeroSection
           value={content.hero}
@@ -176,7 +176,7 @@ export default function ToolContentForm({
       <section className="space-y-6">
         <div className="bg-green-50 border-l-4 border-green-500 px-4 py-3 rounded-md">
           <h2 className="text-xl font-bold text-green-700">
-            Core Capabilities Section
+            WHAT IS CHATGPT?
           </h2>
         </div>
         <CoreCapabilitiesSection
@@ -185,23 +185,6 @@ export default function ToolContentForm({
             setContent((prev) => ({
               ...prev,
               coreCapabilities,
-            }))
-          }
-        />
-      </section>
-
-      <section className="space-y-6">
-        <div className="bg-purple-50 border-l-4 border-purple-500 px-4 py-3 rounded-md">
-          <h2 className="text-xl font-bold text-purple-700">
-            Pros & Cons Section
-          </h2>
-        </div>
-        <ProsConsSection
-          value={content.prosCons}
-          onChange={(prosCons) =>
-            setContent((prev) => ({
-              ...prev,
-              prosCons,
             }))
           }
         />
@@ -223,6 +206,8 @@ export default function ToolContentForm({
           }
         />
       </section>
+
+   
 
       <section className="space-y-6">
         <div className="bg-cyan-50 border-l-4 border-cyan-500 px-4 py-3 rounded-md">
@@ -259,6 +244,40 @@ export default function ToolContentForm({
       </section>
 
       <section className="space-y-6">
+        <div className="bg-yellow-50 border-l-4 border-yellow-500 px-4 py-3 rounded-md">
+          <h2 className="text-xl font-bold text-yellow-700">
+            Pricing Section
+          </h2>
+        </div>
+        <PricingSection
+          value={content.pricing}
+          onChange={(pricing) =>
+            setContent((prev) => ({
+              ...prev,
+              pricing,
+            }))
+          }
+        />
+      </section>
+
+         <section className="space-y-6">
+        <div className="bg-purple-50 border-l-4 border-purple-500 px-4 py-3 rounded-md">
+          <h2 className="text-xl font-bold text-purple-700">
+            Pros & Cons Section
+          </h2>
+        </div>
+        <ProsConsSection
+          value={content.prosCons}
+          onChange={(prosCons) =>
+            setContent((prev) => ({
+              ...prev,
+              prosCons,
+            }))
+          }
+        />
+      </section>
+
+      <section className="space-y-6">
         <div className="bg-indigo-50 border-l-4 border-indigo-500 px-4 py-3 rounded-md">
           <h2 className="text-xl font-bold text-indigo-700">
             Features Section
@@ -278,7 +297,7 @@ export default function ToolContentForm({
       <section className="space-y-6">
         <div className="bg-teal-50 border-l-4 border-teal-500 px-4 py-3 rounded-md">
           <h2 className="text-xl font-bold text-teal-700">
-            Best For Section
+           Who is it best for or  Best For Section
           </h2>
         </div>
         <BestForSection
@@ -304,23 +323,6 @@ export default function ToolContentForm({
             setContent((prev) => ({
               ...prev,
               performanceSection,
-            }))
-          }
-        />
-      </section>
-
-      <section className="space-y-6">
-        <div className="bg-yellow-50 border-l-4 border-yellow-500 px-4 py-3 rounded-md">
-          <h2 className="text-xl font-bold text-yellow-700">
-            Pricing Section
-          </h2>
-        </div>
-        <PricingSection
-          value={content.pricing}
-          onChange={(pricing) =>
-            setContent((prev) => ({
-              ...prev,
-              pricing,
             }))
           }
         />
