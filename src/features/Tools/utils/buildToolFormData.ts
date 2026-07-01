@@ -22,6 +22,10 @@ export function buildToolFormData(
   );
 
   formData.append(
+    "ProductDescription",
+    form.ProductDescription
+  );
+  formData.append(
     "globalDescription",
     form.globalDescription
   );

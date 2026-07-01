@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { generateSlug } from "../../../shared/utils/slug";
 import type { ToolFormData } from "../types/tool.types";
-import {PRICING_OPTIONS,} from "../constants/pricing";
+import { PRICING_OPTIONS, } from "../constants/pricing";
 
 interface Props {
   form: ToolFormData;
@@ -51,11 +51,19 @@ export default function BasicInfoSection({
   };
 
   const handleglobalDescriptionChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({
       ...prev,
       globalDescription: e.target.value,
+    }));
+  };
+  const handleProductDescriptioneChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      ProductDescription: e.target.value,
     }));
   };
 
@@ -78,87 +86,128 @@ export default function BasicInfoSection({
   };
 
   const handlePricingChange = (
-  e: React.ChangeEvent<HTMLSelectElement>
-) => {
-  setForm((prev) => ({
-    ...prev,
-    pricingLabel: e.target.value,
-  }));
-};
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      pricingLabel: e.target.value,
+    }));
+  };
 
-const handleWhatIsItChange = (
-  e: React.ChangeEvent<HTMLTextAreaElement>
-) => {
-  setForm((prev) => ({
-    ...prev,
-    whatIsIt: e.target.value,
-  }));
-};
+  const handleWhatIsItChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      whatIsIt: e.target.value,
+    }));
+  };
 
   return (
-    <div className="space-y-4">
-      <input
-        placeholder="Tool Title"
-        className="w-full p-3 border rounded"
-        value={form.name}
-        onChange={handlenameChange}
-      />
+    <div className="space-y-5">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Tool Title
+        </label>
+        <input
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="Enter tool title"
+          value={form.name}
+          onChange={handlenameChange}
+        />
+      </div>
 
-      <input
-        placeholder="Tool Slug"
-        className="w-full p-3 border rounded"
-        value={form.slug}
-        onChange={handleSlugChange}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Tool Slug
+        </label>
+        <input
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="tool-slug"
+          value={form.slug}
+          onChange={handleSlugChange}
+        />
+      </div>
 
-      <input
-        placeholder="Tool Description"
-        className="w-full p-3 border rounded"
-        value={form.globalDescription}
-        onChange={handleglobalDescriptionChange}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+         GlobalDescription Description for AI tools Directory
+        </label>
+        <textarea
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="Short description"
+          value={form.globalDescription}
+          onChange={handleglobalDescriptionChange}
+        />
+      </div>
 
-      <input
-        placeholder="Brand"
-        className="w-full p-3 border rounded"
-        value={form.brand}
-        onChange={handleBrandChange}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+         Product Description for AI tools content
+        </label>
+        <textarea
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="Short description"
+          value={form.ProductDescription}
+          onChange={handleProductDescriptioneChange}
+        />
+      </div>
 
-      <input
-        type="url"
-        placeholder="Tool Website URL"
-        className="w-full p-3 border rounded"
-        value={form.link}
-        onChange={handleLinkChange}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Brand
+        </label>
+        <input
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="Brand name"
+          value={form.brand}
+          onChange={handleBrandChange}
+        />
+      </div>
 
-      <select
-  className="w-full p-3 border rounded"
-  value={form.pricingLabel}
-  onChange={handlePricingChange}
->
-  <option value="">
-    Select Pricing Model
-  </option>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Website URL
+        </label>
+        <input
+          type="url"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="https://example.com"
+          value={form.link}
+          onChange={handleLinkChange}
+        />
+      </div>
 
-  {PRICING_OPTIONS.map((option) => (
-    <option
-      key={option}
-      value={option}
-    >
-      {option}
-    </option>
-  ))}
-</select>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Pricing Model
+        </label>
+        <select
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          value={form.pricingLabel}
+          onChange={handlePricingChange}
+        >
+          <option value="">Select Pricing Model</option>
+          {PRICING_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
 
-<textarea
-  placeholder="What is this tool?"
-  className="w-full p-3 border rounded"
-  rows={5}
-  value={form.whatIsIt}
-  onChange={handleWhatIsItChange}
-/>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          What is this Tool means for tool content in hero section 
+        </label>
+        <textarea
+          rows={5}
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+          placeholder="Describe the tool..."
+          value={form.whatIsIt}
+          onChange={handleWhatIsItChange}
+        />
+      </div>
     </div>
   );
 }

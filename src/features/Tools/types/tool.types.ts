@@ -8,7 +8,8 @@ export interface ToolFormData {
   name: string;
   slug: string;
   globalDescription: string;
-
+  ProductDescription: string;
+  
   pricingLabel: string;
   whatIsIt: string;
 

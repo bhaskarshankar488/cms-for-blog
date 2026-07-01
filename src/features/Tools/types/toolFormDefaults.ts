@@ -6,6 +6,7 @@ export const DEFAULT_TOOL_FORM: ToolFormData = {
   name: "",
   slug: "",
   globalDescription: "",
+  ProductDescription: "",
 
   pricingLabel: "",
   whatIsIt:"",
