@@ -1,5 +1,6 @@
 import ToolForm from "./ToolForm";
 import ToolContentForm from "./content/ToolContentForm";
+import EditorNavigation from "../../shared/Component/EditorNavigation/EditorNavigation";
 
 import {
   updateTool,
@@ -45,26 +46,24 @@ export default function EditTool() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Edit Tool
-        </h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Update tool information and content.
-        </p>
+    <div className="grid grid-cols-12 gap-8">
+      <div className="col-span-3">
+        <EditorNavigation />
       </div>
-      <ToolForm
-        initialData={tool}
-        toolImageUrl={tool?.images?.tool?.url}
-        heroImageUrl={tool?.images?.hero?.url}
-        faqImageUrl={tool?.images?.faq?.url}
-        onSubmit={handleUpdate}
-      />
 
-      <ToolContentForm
-        toolId={id}
-      />
+      <div className="col-span-9 space-y-8">
+        <ToolForm
+          initialData={tool}
+          toolImageUrl={tool?.images?.tool?.url}
+          heroImageUrl={tool?.images?.hero?.url}
+          faqImageUrl={tool?.images?.faq?.url}
+          onSubmit={handleUpdate}
+        />
+
+        <ToolContentForm
+          toolId={id}
+        />
+      </div>
     </div>
   );
 }
